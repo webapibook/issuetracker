@@ -40,7 +40,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             return null;
         }
 
-        public Task Patch(JObject issue)
+        public Task Patch(string id, JObject issue)
         {
             return null;
         }  
