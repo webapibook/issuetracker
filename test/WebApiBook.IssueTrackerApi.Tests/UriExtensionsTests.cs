@@ -28,6 +28,7 @@ namespace WebApiBook.IssueTrackerApi.Tests
             var request = new Uri("http://localhost/test.com?foo=value1&foo=value2");
             var obj = request.GetQueryStringObject();
             var foos = new List<string>((IEnumerable<string>)obj.foo);
+
             foos[0].ShouldEqual("value1");
             foos[1].ShouldEqual("value2");
         }
