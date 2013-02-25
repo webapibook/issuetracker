@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using IssueTrackerApi.Infrastructure;
 using IssueTrackerApi.Models;
+using Newtonsoft.Json.Linq;
 
 namespace IssueTrackerApi.Controllers
 {
@@ -25,10 +27,10 @@ namespace IssueTrackerApi.Controllers
 
         public Task<Issue> Get(string id)
         {
-            return null;
+            return _issueSource.FindAsync(id);
         }
 
-        public Task Post(Issue issue)
+        public Task<HttpResponseMessage> Post(Issue issue)
         {
             return null;
         }
@@ -38,7 +40,7 @@ namespace IssueTrackerApi.Controllers
             return null;
         }
 
-        public Task Patch(Newtonsoft.Json.Linq.JObject issue)
+        public Task Patch(JObject issue)
         {
             return null;
         }  

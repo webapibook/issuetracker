@@ -16,13 +16,22 @@ namespace IssueTrackerApi.Tests
         private Mock<IIssueSource> _mockIssueSource = new Mock<IIssueSource>();
 
         [Fact]
-        public void WhenGettingAllShouldCallFindAsync()
+        public void ShouldCallFindAsyncWhenGettingAllIssues()
         {
-            _mockIssueSource = new Mock<IIssueSource>();
-            _mockIssueSource.Setup(i => i.FindAsync()).Returns(new Task<IEnumerable<Issue>>(()=>new [] {new Issue()}));
             var controller = new IssuesController(_mockIssueSource.Object);
             controller.Get();
             _mockIssueSource.Verify(i=>i.FindAsync());
         }
+
+        [Fact]
+        public void ShouldCallFindAsyncWhenGettingASpecificIssue()
+        {
+            _mockIssueSource.Setup(i => i.FindAsync(1)).Returns(new Task<IEnumerable<Issue>>(() => new[] { new Issue() }));
+            var controller = new IssuesController(_mockIssueSource.Object);
+            controller.Get("1");
+            _mockIssueSource.Verify(i => i.FindAsync(It.Is<String>(id=>id.Equals("1"))));
+        }
+
+
     }
 }
