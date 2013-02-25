@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Net.Http;
 
-namespace IssueTrackerApi.Infrastructure
+namespace WebApiBook.IssueTrackerApi.Infrastructure
 {
     public static class UriExtensions
     {

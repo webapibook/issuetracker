@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IssueTrackerApi.Models
+namespace WebApiBook.IssueTrackerApi.Models
 {
     public class Link
     {

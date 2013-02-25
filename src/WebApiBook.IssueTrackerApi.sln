@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackerApi", "IssueTrackerApi\IssueTrackerApi.csproj", "{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi", "WebApiBook.IssueTrackerApi\WebApiBook.IssueTrackerApi.csproj", "{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackerApi.Tests", "..\test\IssueTrackerApi.Tests\IssueTrackerApi.Tests.csproj", "{1800F386-486A-41D7-B6B9-8E648BBB9EDD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi.Tests", "..\test\WebApiBook.IssueTrackerApi.Tests\WebApiBook.IssueTrackerApi.Tests.csproj", "{1800F386-486A-41D7-B6B9-8E648BBB9EDD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23BA1DCB-8693-4505-8B38-FD3AF35CCF31}"
 	ProjectSection(SolutionItems) = preProject

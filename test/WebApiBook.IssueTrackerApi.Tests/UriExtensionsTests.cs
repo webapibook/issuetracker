@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
-using IssueTrackerApi.Infrastructure;
+using WebApiBook.IssueTrackerApi.Infrastructure;
 using Should;
 
-namespace IssueTrackerApi.Tests
+namespace WebApiBook.IssueTrackerApi.Tests
 {
     public class UriExtensionsTests
     {

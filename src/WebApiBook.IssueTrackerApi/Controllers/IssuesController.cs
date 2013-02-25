@@ -5,11 +5,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using IssueTrackerApi.Infrastructure;
-using IssueTrackerApi.Models;
 using Newtonsoft.Json.Linq;
+using WebApiBook.IssueTrackerApi.Infrastructure;
+using WebApiBook.IssueTrackerApi.Models;
 
-namespace IssueTrackerApi.Controllers
+namespace WebApiBook.IssueTrackerApi.Controllers
 {
     public class IssuesController : ApiController
     {

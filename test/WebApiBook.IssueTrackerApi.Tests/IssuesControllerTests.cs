@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IssueTrackerApi.Controllers;
-using IssueTrackerApi.Infrastructure;
-using IssueTrackerApi.Models;
 using Moq;
+using WebApiBook.IssueTrackerApi.Controllers;
+using WebApiBook.IssueTrackerApi.Infrastructure;
+using WebApiBook.IssueTrackerApi.Models;
 using Xunit;
 
-namespace IssueTrackerApi.Tests
+namespace WebApiBook.IssueTrackerApi.Tests
 {
     public class IssuesControllerTests
     {

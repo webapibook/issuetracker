@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Net.Http;
-using IssueTrackerApi.Infrastructure;
+using WebApiBook.IssueTrackerApi.Infrastructure;
 
-namespace IssueTrackerApi.Controllers
+namespace WebApiBook.IssueTrackerApi.Controllers
 {   
     public class IssueProcessorController : ApiController
     {

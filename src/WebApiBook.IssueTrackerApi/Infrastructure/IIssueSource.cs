@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IssueTrackerApi.Models;
+using WebApiBook.IssueTrackerApi.Models;
 
-namespace IssueTrackerApi.Infrastructure
+namespace WebApiBook.IssueTrackerApi.Infrastructure
 {
     public interface IIssueSource
     {

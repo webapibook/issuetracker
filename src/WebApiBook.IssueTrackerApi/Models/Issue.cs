@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace IssueTrackerApi.Models
+namespace WebApiBook.IssueTrackerApi.Models
 {
     public class Issue
     {
