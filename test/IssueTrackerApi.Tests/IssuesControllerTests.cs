@@ -32,6 +32,5 @@ namespace IssueTrackerApi.Tests
             _mockIssueSource.Verify(i => i.FindAsync(It.Is<String>(id=>id.Equals("1"))));
         }
 
-
     }
 }
