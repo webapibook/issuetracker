@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -20,29 +21,36 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             _issueSource = issueSource;
         }
 
-        public Task<IEnumerable<Issue>> Get()
+        public async Task<IEnumerable<Issue>> Get()
         {
-            return _issueSource.FindAsync();
+            return await _issueSource.FindAsync();
         } 
 
-        public Task<Issue> Get(string id)
+        public async Task<Issue> Get(string id)
         {
-            return _issueSource.FindAsync(id);
+            var issue = await _issueSource.FindAsync(id);
+            if(issue == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            return issue;
         }
 
-        public Task<HttpResponseMessage> Post(Issue issue)
+        public async Task<HttpResponseMessage> Post(Issue issue)
         {
-            return null;
+            var createdIssue = await _issueSource.CreateAsync(issue);
+            var link = Url.Link("DefaultApi", new {Controller = "issues", id = createdIssue.Id});
+            var response = Request.CreateResponse(HttpStatusCode.Created, createdIssue);
+            response.Headers.Location = new Uri(link);
+            return response;
         }
 
-        public Task Delete(string id)
+        public async Task Delete(string id)
         {
-            return null;
+            await _issueSource.DeleteAsync(id);
         }
 
-        public Task Patch(string id, JObject issue)
+        public async Task Patch(string id, JObject issue)
         {
-            return null;
+            await _issueSource.UpdateAsync(id, issue);
         }  
     }
 }

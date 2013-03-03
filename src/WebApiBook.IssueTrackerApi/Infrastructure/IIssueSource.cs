@@ -10,11 +10,11 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
     public interface IIssueSource
     {
         Task<IEnumerable<Issue>> FindAsync();
-        Task<IEnumerable<Issue>> FindAsync(dynamic values);
+        Task<IEnumerable<Issue>> FindAsyncQuery(dynamic values);
         Task<Issue> FindAsync(string issueId);
         Task UpdateAsync(string issueId, dynamic values);
         Task DeleteAsync(string issueId);
-        Task CreateAync(Issue issue);
+        Task<Issue> CreateAsync(Issue issue);
         Task Action(string issueId, string action, dynamic values);
     }
 }
