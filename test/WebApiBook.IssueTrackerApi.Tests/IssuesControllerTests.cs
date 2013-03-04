@@ -51,7 +51,7 @@ namespace WebApiBook.IssueTrackerApi.Tests
         }
 
         [Fact]
-        public void ShouldReturnNotFoundWhenGetForNonExistingIssue()
+        public void ShouldReturnNotFoundWhenGETForNonExistingIssue()
         {
             _mockIssueSource.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null));
             var ex = Assert.Throws<AggregateException>(() =>
@@ -122,5 +122,35 @@ namespace WebApiBook.IssueTrackerApi.Tests
             var task = _controller.Patch("1", value);
             _mockIssueSource.Verify(i=>i.UpdateAsync("1", value));
         }
+
+        [Fact]
+        public void ShouldReturnNotFoundWhenPATCHForNonExistingIssue()
+        {
+            var payload = new JObject();
+            _controller.ConfigureForTesting(new HttpMethod("PATCH"), "http://test.com/issues");
+            _mockIssueSource.Setup(i => i.UpdateAsync("1", payload)).Throws(new ArgumentException());
+            var ex = Assert.Throws<AggregateException>(() =>
+                {
+                    var task = _controller.Patch("1", payload);
+                    task.Wait();
+                });
+            ex.InnerException.ShouldBeType<HttpResponseException>();
+            ((HttpResponseException)ex.InnerException).Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public void ShouldReturnNotFoundWhenDELETEForNonExistingIssue()
+        {
+            _controller.ConfigureForTesting(HttpMethod.Delete, "http://test.com/issues");
+            _mockIssueSource.Setup(i => i.DeleteAsync("1")).Throws(new ArgumentException());
+            var ex = Assert.Throws<AggregateException>(() =>
+            {
+                var task = _controller.Delete("1");
+                task.Wait();
+            });
+            ex.InnerException.ShouldBeType<HttpResponseException>();
+            ((HttpResponseException)ex.InnerException).Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound);
+        }
+
     }
 }

@@ -45,12 +45,26 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 
         public async Task Delete(string id)
         {
-            await _issueSource.DeleteAsync(id);
+            try
+            {
+                await _issueSource.DeleteAsync(id);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
         }
 
         public async Task Patch(string id, JObject issue)
         {
-            await _issueSource.UpdateAsync(id, issue);
+            try
+            {
+                await _issueSource.UpdateAsync(id, issue);
+            }
+            catch(ArgumentException ex)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
         }  
     }
 }
