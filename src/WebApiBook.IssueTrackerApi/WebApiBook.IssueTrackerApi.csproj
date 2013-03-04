@@ -127,7 +127,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\GithubIssueSource.cs" />
     <Compile Include="Infrastructure\IIssueSource.cs" />
+    <Compile Include="Infrastructure\IssueSource.cs" />
     <Compile Include="Infrastructure\UriExtensions.cs" />
     <Compile Include="Models\Issue.cs" />
     <Compile Include="Models\Link.cs" />

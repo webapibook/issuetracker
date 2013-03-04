@@ -80,7 +80,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GithubIssueSourceTests.cs" />
     <Compile Include="IssuesControllerTests.cs" />
+    <Compile Include="IssueSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UriExtensionsTests.cs" />
   </ItemGroup>
