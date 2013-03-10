@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace WebApiBook.IssueTrackerApi.Tests.Handlers
+namespace WebApiBook.IssueTrackerApi.Fakes.Handlers
 {
     public class FakeGithubHandler : HttpMessageHandler
     {
@@ -21,7 +21,7 @@ namespace WebApiBook.IssueTrackerApi.Tests.Handlers
         {
             var assembly = typeof (FakeGithubHandler).Assembly;
             var reader =
-                new StreamReader(assembly.GetManifestResourceStream("WebApiBook.IssueTrackerApi.Tests.GithubIssues.json"));
+                new StreamReader(assembly.GetManifestResourceStream("WebApiBook.IssueTrackerApi.Fakes.GithubIssues.json"));
             var jsonReader = new JsonTextReader(reader);
             Issues = JArray.Load(jsonReader);
         }

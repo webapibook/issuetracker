@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApiBook.IssueTrackerApi.Fakes.Handlers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using WebApiBook.IssueTrackerApi.Tests.Handlers;
 using Xunit;
 using Should;
 
