@@ -82,7 +82,28 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
             {
                 issue.Links.Add(new Link { Href = issueJson.assignee.url, Rel = "http://rels.webapibook.net#assigned-to", Rt = "assignee" });
             }
-            issue.Actions.Add(new ActionLink { Action = "close", Rel = "http://rels.webapibook.net#close", Href = "/issues/" + issueJson.number + "/issueprocessor?action=close", Rt="transition" });
+
+            switch (issue.State)
+            {
+                case "open":
+                    issue.Actions.Add(new ActionLink
+                        {
+                            Action = "close",
+                            Rel = "http://rels.webapibook.net#close",
+                            Href = "/issues/" + issueJson.number + "/issueprocessor?action=close",
+                            Rt = "transition"
+                        });
+                    break;
+                case "closed":
+                    issue.Actions.Add(new ActionLink
+                        {
+                            Action = "close",
+                            Rel = "http://rels.webapibook.net#close",
+                            Href = "/issues/" + issueJson.number + "/issueprocessor?action=close",
+                            Rt = "transition"
+                        });
+                    break;
+            }
             return issue;
         }
     }
