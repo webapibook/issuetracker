@@ -14,7 +14,7 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
         private readonly string _issueUrl;
         private readonly string _queryParams;
 
-        public GithubIssueSource(string issueUrl, string queryParams, HttpMessageHandler handler)
+        public GithubIssueSource(string issueUrl, string queryParams, HttpMessageHandler handler = null)
             :base(handler)
         {
             _issueUrl = issueUrl;
