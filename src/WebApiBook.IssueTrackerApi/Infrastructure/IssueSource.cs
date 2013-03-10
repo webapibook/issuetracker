@@ -18,39 +18,39 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
                 Client = new HttpClient();
         }
 
-        protected HttpClient Client { get; private set; }
+        public HttpClient Client { get; private set; }
 
-        public Task<IEnumerable<Issue>> FindAsync()
+        public virtual Task<IEnumerable<Issue>> FindAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Issue>> FindAsyncQuery(dynamic values)
+        public virtual Task<IEnumerable<Issue>> FindAsyncQuery(dynamic values)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Issue> FindAsync(string issueId)
+        public virtual Task<Issue> FindAsync(string issueId)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public virtual Task UpdateAsync(string issueId, dynamic values)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(string issueId, dynamic values)
+        public virtual Task DeleteAsync(string issueId)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(string issueId)
+        public virtual Task<Issue> CreateAsync(Issue issue)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Issue> CreateAsync(Issue issue)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Action(string issueId, string action, dynamic values)
+        public virtual Task Action(string issueId, string action, dynamic values)
         {
             throw new NotImplementedException();
         }
