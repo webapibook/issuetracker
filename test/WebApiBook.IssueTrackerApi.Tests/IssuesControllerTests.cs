@@ -35,9 +35,10 @@ namespace WebApiBook.IssueTrackerApi.Tests
         }
 
         [Fact]
-        public async void ShouldCallFindAsyncWhenGETForIssue()
+        public void ShouldCallFindAsyncWhenGETForIssue()
         {
             _mockIssueSource.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(new Issue(){Id="1"}));
+            _controller.Get("1");
             _mockIssueSource.Verify(i => i.FindAsync("1"));
         }
 
@@ -64,7 +65,7 @@ namespace WebApiBook.IssueTrackerApi.Tests
         }
 
         [Fact]
-        public async void ShouldCallCreateAsyncWhenPOSTForNewIssue()
+        public void ShouldCallCreateAsyncWhenPOSTForNewIssue()
         {
             _controller.ConfigureForTesting(HttpMethod.Post, "http://test.com/issues");
             var issue = new Issue();
@@ -74,7 +75,7 @@ namespace WebApiBook.IssueTrackerApi.Tests
         }
 
         [Fact]
-        public async void ShouldReturnIssueWhenPOSTForNewIssue()
+        public void ShouldReturnIssueWhenPOSTForNewIssue()
         {
             _controller.ConfigureForTesting(HttpMethod.Post, "http://test.com/issues");
             var issue = new Issue();
@@ -85,7 +86,7 @@ namespace WebApiBook.IssueTrackerApi.Tests
         }
 
         [Fact]
-        public async void ShouldReturnCreatedWhenPOSTForNewIssue()
+        public void ShouldReturnCreatedWhenPOSTForNewIssue()
         {
             _controller.ConfigureForTesting(HttpMethod.Post, "http://test.com/issues");
             var issue = new Issue();
