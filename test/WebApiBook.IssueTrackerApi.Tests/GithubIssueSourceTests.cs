@@ -16,15 +16,14 @@ namespace WebApiBook.IssueTrackerApi.Tests
     {
         public class TheFindAsyncMethod
         {
-
             private GithubIssueSource _source;
             private FakeGithubHandler _handler = new FakeGithubHandler();
-            private IEnumerable<Issue> _issues;
+            private Issue[] _issues;
             
             public TheFindAsyncMethod()
             {
                 _source = new GithubIssueSource("https://api.github.com/repos/webapibook/issuetracker/issues", "milestone=1", _handler);
-                _issues = _source.FindAsync().Result;
+                _issues = _source.FindAsync().Result.ToArray();
  
             }
 
@@ -53,19 +52,55 @@ namespace WebApiBook.IssueTrackerApi.Tests
                 issue.Links[0].Rel.ShouldEqual("http://rels.webapibook.net#issue-source-url");
                 issue.Links[0].Rt.ShouldEqual("issue source");
                 issue.Links[1].Href.ShouldEqual("https://api.github.com/users/glennblock");
-                issue.Links[1].Rel.ShouldEqual("http://rels.webapi.book.net#created-by");
+                issue.Links[1].Rel.ShouldEqual("http://rels.webapibook.net#created-by");
                 issue.Links[1].Rt.ShouldEqual("creator");
             }
 
             [Fact]
-            public void ShouldPropertySetActionLink()
+            public void ShouldProperlySetFirstIssueActionLink()
             {
-                var issue = _issues.First();
+                var issue = _issues[0];
                 issue.Actions[0].Action.ShouldEqual("close");
                 issue.Actions[0].Rel.ShouldEqual("http://rels.webapibook.net#close");
                 issue.Actions[0].Href.ShouldEqual("/issues/3/issueprocessor?action=close");
                 issue.Actions[0].Rt.ShouldEqual("transition");
             }
+            [Fact]
+            public void ShouldProperlyPopulateSecondIssueDetails()
+            {
+                var issue = _issues[1];
+                issue.Title.ShouldEqual("Dummy feature 1");
+                issue.State.ShouldEqual("open");
+                issue.Id.ShouldEqual("2");
+                issue.Description.ShouldEqual("Lorem ipsum feature");
+                issue.Href.ShouldEqual("/issues/2");
+            }
+
+            [Fact]
+            public void ShouldProperlyPopulateSecondIssueLinks()
+            {
+                var issue = _issues[1];
+                issue.Links[0].Href.ShouldEqual("https://api.github.com/repos/webapibook/issuetracker/issues/2");
+                issue.Links[0].Rel.ShouldEqual("http://rels.webapibook.net#issue-source-url");
+                issue.Links[0].Rt.ShouldEqual("issue source");
+                issue.Links[1].Href.ShouldEqual("https://api.github.com/users/glennblock");
+                issue.Links[1].Rel.ShouldEqual("http://rels.webapibook.net#created-by");
+                issue.Links[1].Rt.ShouldEqual("creator");
+                issue.Links[2].Href.ShouldEqual("https://api.github.com/users/darrelmiller");
+                issue.Links[2].Rel.ShouldEqual("http://rels.webapibook.net#assigned-to");
+                issue.Links[2].Rt.ShouldEqual("assignee");
+            }
+
+            [Fact]
+            public void ShouldProperlySetSecondIssueActionLink()
+            {
+                var issue = _issues[1];
+                issue.Actions[0].Action.ShouldEqual("close");
+                issue.Actions[0].Rel.ShouldEqual("http://rels.webapibook.net#close");
+                issue.Actions[0].Href.ShouldEqual("/issues/2/issueprocessor?action=close");
+                issue.Actions[0].Rt.ShouldEqual("transition");
+            }
+
         }
 
     }
