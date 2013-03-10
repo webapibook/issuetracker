@@ -27,9 +27,17 @@ namespace WebApiBook.IssueTrackerApi
             );
 
             var builder = new ContainerBuilder();
+            
             builder.RegisterApiControllers(typeof(IssuesController).Assembly);
+
+#if debug
             builder.Register(
                 c => new GithubIssueSource("https://api.github.com/repos/webapibook/issuetracker/issues", "milestone=1")).As<IIssueSource>();
+#else
+            builder.Register(
+                c => new GithubIssueSource("https://api.github.com/repos/webapibook/issuetracker/issues", "milestone=1")).As<IIssueSource>();
+#endif
+
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

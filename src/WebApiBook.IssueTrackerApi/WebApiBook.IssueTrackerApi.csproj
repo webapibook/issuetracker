@@ -155,6 +155,12 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebApiBook.IssueTrackerApi.Fakes\WebApiBook.IssueTrackerApi.Fakes.csproj">
+      <Project>{d96033f9-f76d-4dd0-a267-52094c0f25cb}</Project>
+      <Name>WebApiBook.IssueTrackerApi.Fakes</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
