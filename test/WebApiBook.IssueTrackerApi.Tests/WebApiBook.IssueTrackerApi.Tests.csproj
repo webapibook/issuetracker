@@ -7,8 +7,8 @@
     <ProjectGuid>{1800F386-486A-41D7-B6B9-8E648BBB9EDD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IssueTrackerApi.Tests</RootNamespace>
-    <AssemblyName>IssueTrackerApi.Tests</AssemblyName>
+    <RootNamespace>WebApiBook.IssueTrackerApi.Tests</RootNamespace>
+    <AssemblyName>WebApiBook.IssueTrackerApi.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GithubIssueSourceTests.cs" />
+    <Compile Include="Handlers\FakeGithubHandler.cs" />
     <Compile Include="IssuesControllerTests.cs" />
     <Compile Include="IssueSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +95,9 @@
       <Project>{ddbdd2d6-2bfa-4568-8dbf-8ad846111d78}</Project>
       <Name>WebApiBook.IssueTrackerApi</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GithubIssues.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
