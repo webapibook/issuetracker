@@ -130,7 +130,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\BasicAuthnClientHandler.cs" />
+    <Compile Include="Infrastructure\BasicAuthnServerHandler.cs" />
+    <Compile Include="Infrastructure\BasicCredentials.cs" />
+    <Compile Include="Infrastructure\BearerAuthnClientHandler.cs" />
+    <Compile Include="Infrastructure\BearerToken.cs" />
     <Compile Include="Infrastructure\GithubIssueSource.cs" />
+    <Compile Include="Infrastructure\GitHubTokenClient.cs" />
     <Compile Include="Infrastructure\IIssueSource.cs" />
     <Compile Include="Infrastructure\IssueSource.cs" />
     <Compile Include="Infrastructure\UriExtensions.cs" />

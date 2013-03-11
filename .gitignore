@@ -2,6 +2,9 @@
 [Bb]in/
 [Oo]bj/
 
+# Secret Credentials Folder
+SecretCredentials/
+
 # mstest test results
 TestResults
 

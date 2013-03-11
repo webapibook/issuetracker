@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23BA1D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi.Fakes", "WebApiBook.IssueTrackerApi.Fakes\WebApiBook.IssueTrackerApi.Fakes.csproj", "{D96033F9-F76D-4DD0-A267-52094C0F25CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi.IntegrationTests", "..\test\WebApiBook.IssueTrackerApi.IntegrationTests\WebApiBook.IssueTrackerApi.IntegrationTests.csproj", "{15531DF5-1085-4056-86EF-0AC820F8A2DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
