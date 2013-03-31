@@ -14,22 +14,25 @@ namespace WebApiBook.IssueTrackerApi.Tests
 {
     public class IssueSourceTests
     {
-        [Fact]
-        public void ShouldCreateClientWhenConstructed()
+        public class TheConstructor
         {
-            var source = new TestIssueSource(null);
-            source.Client.ShouldNotBeNull();
-        }
+            [Fact]
+            public void ShouldCreateClientWhenInvoked()
+            {
+                var source = new TestIssueSource(null);
+                source.Client.ShouldNotBeNull();
+            }
 
-        [Fact]
-        public void ShouldSetHandlerIfPassedInWhenConstructed()
-        {
-            var handler = new FakeHandler(h => null);
-            var source = new TestIssueSource(handler);
-            var handlerField = typeof(HttpMessageInvoker).GetField("handler",
-                                                                    BindingFlags.NonPublic | BindingFlags.Instance);
-            var clientHandler = (HttpMessageHandler)handlerField.GetValue(source.Client);
-            clientHandler.ShouldEqual(handler);
+            [Fact]
+            public void ShouldSetHandlerWhenHandlerIsPassed()
+            {
+                var handler = new FakeHandler(h => null);
+                var source = new TestIssueSource(handler);
+                var handlerField = typeof (HttpMessageInvoker).GetField("handler",
+                                                                        BindingFlags.NonPublic | BindingFlags.Instance);
+                var clientHandler = (HttpMessageHandler) handlerField.GetValue(source.Client);
+                clientHandler.ShouldEqual(handler);
+            }
         }
     }
 

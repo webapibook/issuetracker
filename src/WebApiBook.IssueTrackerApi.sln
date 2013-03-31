@@ -19,23 +19,32 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Fake Github Source|Any CPU = Fake Github Source|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Fake Github Source|Any CPU.ActiveCfg = Fake Github Source|Any CPU
+		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Fake Github Source|Any CPU.Build.0 = Fake Github Source|Any CPU
 		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Fake Github Source|Any CPU.ActiveCfg = Fake Github Source|Any CPU
+		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Fake Github Source|Any CPU.Build.0 = Fake Github Source|Any CPU
 		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Fake Github Source|Any CPU.ActiveCfg = Fake Github Source|Any CPU
+		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Fake Github Source|Any CPU.Build.0 = Fake Github Source|Any CPU
 		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D96033F9-F76D-4DD0-A267-52094C0F25CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Fake Github Source|Any CPU.ActiveCfg = Fake Github Source|Any CPU
+		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Fake Github Source|Any CPU.Build.0 = Fake Github Source|Any CPU
 		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15531DF5-1085-4056-86EF-0AC820F8A2DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
