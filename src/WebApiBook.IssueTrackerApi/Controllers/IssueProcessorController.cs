@@ -11,11 +11,11 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 {   
     public class IssueProcessorController : ApiController
     {
-        private readonly IIssueSource _issueSource;
+        private readonly IIssueStore _issueStore;
 
-        public IssueProcessorController(IIssueSource issueSource)
+        public IssueProcessorController(IIssueStore issueStore)
         {
-            _issueSource = issueSource;
+            _issueStore = issueStore;
         }
 
         public Task Post(string id, string action)
