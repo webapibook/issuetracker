@@ -125,22 +125,18 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\IssueProcessorController.cs" />
-    <Compile Include="Controllers\IssuesController.cs" />
+    <Compile Include="Controllers\IssueController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\BasicAuthnClientHandler.cs" />
-    <Compile Include="Infrastructure\BasicAuthnServerHandler.cs" />
-    <Compile Include="Infrastructure\BasicCredentials.cs" />
-    <Compile Include="Infrastructure\BearerAuthnClientHandler.cs" />
-    <Compile Include="Infrastructure\BearerToken.cs" />
-    <Compile Include="Infrastructure\GithubIssueSource.cs" />
-    <Compile Include="Infrastructure\GitHubTokenClient.cs" />
-    <Compile Include="Infrastructure\IIssueSource.cs" />
-    <Compile Include="Infrastructure\IssueSource.cs" />
-    <Compile Include="Infrastructure\UriExtensions.cs" />
+    <Compile Include="Infrastructure\IIssueStore.cs" />
+    <Compile Include="Infrastructure\IssueLinkFactory.cs" />
+    <Compile Include="Infrastructure\IssueStateFactory.cs" />
+    <Compile Include="Infrastructure\IStateFactory.cs" />
+    <Compile Include="Infrastructure\LinkFactory.cs" />
     <Compile Include="Models\Issue.cs" />
+    <Compile Include="Models\IssueSatus.cs" />
+    <Compile Include="Models\IssueState.cs" />
     <Compile Include="Models\Link.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -161,12 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WebApiBook.IssueTrackerApi.Fakes\WebApiBook.IssueTrackerApi.Fakes.csproj">
-      <Project>{d96033f9-f76d-4dd0-a267-52094c0f25cb}</Project>
-      <Name>WebApiBook.IssueTrackerApi.Fakes</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

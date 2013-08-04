@@ -97,9 +97,9 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
                 case "closed":
                     issue.Actions.Add(new ActionLink
                         {
-                            Action = "open",
-                            Rel = "http://rels.webapibook.net#reopen",
-                            Href = "/issues/" + issueJson.number + "/issueprocessor?action=reopen",
+                            Action = "close",
+                            Rel = "http://rels.webapibook.net#close",
+                            Href = "/issues/" + issueJson.number + "/issueprocessor?action=close",
                             Rt = "transition"
                         });
                     break;
