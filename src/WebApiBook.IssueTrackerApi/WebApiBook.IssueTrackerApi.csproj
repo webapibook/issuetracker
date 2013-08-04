@@ -126,14 +126,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\IssueController.cs" />
+    <Compile Include="Controllers\IssueProcessorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\BasicAuthnClientHandler.cs" />
+    <Compile Include="Infrastructure\BasicAuthnServerHandler.cs" />
+    <Compile Include="Infrastructure\BasicCredentials.cs" />
+    <Compile Include="Infrastructure\BearerAuthnClientHandler.cs" />
+    <Compile Include="Infrastructure\BearerToken.cs" />
     <Compile Include="Infrastructure\IIssueStore.cs" />
     <Compile Include="Infrastructure\IssueLinkFactory.cs" />
     <Compile Include="Infrastructure\IssueStateFactory.cs" />
     <Compile Include="Infrastructure\IStateFactory.cs" />
     <Compile Include="Infrastructure\LinkFactory.cs" />
+    <Compile Include="Infrastructure\UriExtensions.cs" />
     <Compile Include="Models\Issue.cs" />
     <Compile Include="Models\IssueSatus.cs" />
     <Compile Include="Models\IssueState.cs" />
