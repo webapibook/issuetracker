@@ -76,7 +76,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IssueManagementSpecs.cs" />
+    <Compile Include="IssueTests.cs" />
+    <Compile Include="IssueRetrievalTests.cs" />
+    <Compile Include="IssueUpdateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

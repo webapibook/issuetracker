@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Newtonsoft.Json.Serialization;
 using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
+using WebApiBook.IssueTrackerApi.Models;
 
 namespace WebApiBook.IssueTrackerApi
 {
@@ -29,19 +31,29 @@ namespace WebApiBook.IssueTrackerApi
             var builder = new ContainerBuilder();
             
             builder.RegisterApiControllers(typeof(IssueController).Assembly);
-/*
-#if USE_FAKE_GITHUB_SOURCE
-            builder.Register(
-                c => new GithubIssueSource("https://api.github.com/repos/webapibook/issuetracker/issues", "milestone=1", new FakeGithubHandler())).As<IIssueStore>();
-#else
-            builder.Register(
-                c => new GithubIssueSource("https://api.github.com/repos/webapibook/issuetracker/issues", "milestone=1")).As<IIssueSource>();
-#endif
- * */
-
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.MessageHandlers.Add(container.Resolve<IssueHypermediaHandler>());
+        }
+    }
+
+    public class IssueHypermediaHandler : DelegatingHandler
+    {
+        private readonly IStateFactory<Issue, IssueState> _factory;
+
+        public IssueHypermediaHandler(IStateFactory<Issue, IssueState> factory)
+        {
+            _factory = factory;
+        }
+
+        protected async override System.Threading.Tasks.Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+        {
+            var response = await base.SendAsync(request, cancellationToken);
+            var issue = await response.Content.ReadAsAsync<Issue>();
+            var issueState = _factory.Create(issue);
+            response.Content = new ObjectContent<IssueState>(issueState, null);
+            return response;
         }
     }
 }
