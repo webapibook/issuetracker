@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiBook.IssueTrackerApi.Infrastructure;
@@ -27,6 +28,10 @@ namespace WebApiBook.IssueTrackerApi.Controllers
         public async Task<IssueState> Get(string id)
         {
             var result = await _store.FindAsync(id);
+            if (result == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
             return _stateFactory.Create(result);
         }
     }
