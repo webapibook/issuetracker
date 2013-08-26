@@ -142,6 +142,7 @@
     <Compile Include="Infrastructure\LinkFactory.cs" />
     <Compile Include="Infrastructure\UriExtensions.cs" />
     <Compile Include="Models\Issue.cs" />
+    <Compile Include="Models\IssuesState.cs" />
     <Compile Include="Models\IssueSatus.cs" />
     <Compile Include="Models\IssueState.cs" />
     <Compile Include="Models\Link.cs" />
