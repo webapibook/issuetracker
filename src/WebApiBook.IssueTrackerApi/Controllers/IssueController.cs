@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiBook.IssueTrackerApi.Infrastructure;
@@ -19,20 +20,25 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             _stateFactory = stateFactory;
         }
 
-        public async Task<IEnumerable<IssueState>> Get()
+        public async Task<HttpResponseMessage> Get()
         {
             var result = await _store.FindAsync();
-            return result.Select(i => _stateFactory.Create(i));
+            var issuesState = new IssuesState();
+            issuesState.Issues = result.Select(i => _stateFactory.Create(i));
+            return Request.CreateResponse(HttpStatusCode.OK, issuesState);
         } 
 
-        public async Task<IssueState> Get(string id)
+        public async Task<HttpResponseMessage> Get(string id)
         {
             var result = await _store.FindAsync(id);
             if (result == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-            return _stateFactory.Create(result);
+            var issuesState = new IssuesState();
+            issuesState.Issues = new IssueState[] {_stateFactory.Create(result)};
+
+            return Request.CreateResponse(HttpStatusCode.OK, issuesState);
         }
     }
 }
