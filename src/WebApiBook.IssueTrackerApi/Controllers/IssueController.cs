@@ -36,7 +36,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
             var issuesState = new IssuesState();
-            issuesState.Issues = new IssueState[] {_stateFactory.Create(result)};
+            issuesState.Issues = new [] {_stateFactory.Create(result)};
 
             return Request.CreateResponse(HttpStatusCode.OK, issuesState);
         }
