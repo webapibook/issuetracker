@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
@@ -11,8 +12,10 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueProcessingTests : IssueProcessorControllerTests
+    public class IssueProcessingTests : IssueApiTestCommon
     {
+        private string _uriProcessor = "http://localhost/issueprocessor/1?";
+
         [Scenario]
         public void ClosingAnOpenIssue()
         {
@@ -25,7 +28,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                         MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                     });
             "When a POST request is made to the issue processor AND the action is 'close'".
-                f(() => Response = Controller.Post("1", "close").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=close");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then the issue is closed".
@@ -48,7 +56,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'transition'".
-                f(() => Response = Controller.Post("1", "close").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=transition");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then the issue is closed".
@@ -70,8 +83,13 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
-            "When a POST request is made to the issue processor AND the action is 'transition'".
-                f(() => Response = Controller.Post("1", "close").Result);
+            "When a POST request is made to the issue processor AND the action is 'close'".
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=close");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.BadRequest));
         }
@@ -88,7 +106,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
-                f(() => Response = Controller.Post("1", "open").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=open");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then the issue is closed".
@@ -111,7 +134,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
-                f(() => Response = Controller.Post("1", "transition").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=open");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then the issue is closed".
@@ -134,7 +162,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
-                f(() => Response = Controller.Post("1", "close").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=close");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '400 Bad Request' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.BadRequest));
         }
@@ -145,7 +178,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a POST request is made to the issue processor AND the action is 'open'".
-                f(() => Response = Controller.Post("1", "open").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=open");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '404 Not Found' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
@@ -156,7 +194,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a POST request is made to the issue processor AND the action is 'close'".
-                f(() => Response = Controller.Post("1", "close").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=close");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '404 Not Found' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
@@ -167,7 +210,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a POST request is made to the issue processor AND the action is 'transition'".
-                f(() => Response = Controller.Post("1", "close").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = new Uri(_uriProcessor + "action=transition");
+                        Request.Method = HttpMethod.Post;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '404 Not Found' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
             
