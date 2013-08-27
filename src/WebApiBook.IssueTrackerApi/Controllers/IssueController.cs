@@ -38,10 +38,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             if (result == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            var issuesState = new IssuesState();
-            issuesState.Issues = new [] {_stateFactory.Create(result)};
-
-            return Request.CreateResponse(HttpStatusCode.OK, issuesState);
+            return Request.CreateResponse(HttpStatusCode.OK, _stateFactory.Create(result));
         }
 
         public async Task<HttpResponseMessage> Post(Issue issue)

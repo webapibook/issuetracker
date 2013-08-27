@@ -11,21 +11,14 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueDeletionTests : IssueControllerTests
+    public class IssueDeletionTests : IssueApiTestCommon
     {
-
-        protected override HttpRequestMessage GetRequest()
-        {
-            var request = base.GetRequest();
-            request.Method = HttpMethod.Delete;
-            return request;
-        }
+        private Uri _uriIssue = new Uri("http://localhost/issue/1");
 
         [Scenario]
         public void DeletingAnIssue()
         {
             var fakeIssue = FakeIssues.FirstOrDefault();
-            HttpResponseMessage response = null;
 
             "Given an existing issue".
                 f(() =>
@@ -34,11 +27,16 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                         MockIssueStore.Setup(i => i.DeleteAsync("1")).Returns(Task.FromResult(""));
                     });
             "When a DELETE request is made".
-                f(() => response = Controller.Delete("1").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = _uriIssue;
+                        Request.Method = HttpMethod.Delete;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then the issue should be removed".
                 f(() => MockIssueStore.Verify(i => i.DeleteAsync("1")));
             "Then a '200 OK status' is returned".
-                f(() => response.StatusCode.ShouldEqual(HttpStatusCode.OK));
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
         }
 
         [Scenario]
@@ -47,7 +45,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue) null)));
             "When a DELETE request is made".
-                f(() => Response = Controller.Delete("1").Result);
+                f(() =>
+                    {
+                        Request.RequestUri = _uriIssue;
+                        Request.Method = HttpMethod.Delete;
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '404 Not Found' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }

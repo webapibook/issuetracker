@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\src\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi">
+      <HintPath>..\..\src\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\src\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -76,12 +82,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IssueApiTests.cs" />
+    <Compile Include="IssueApiTestCommon.cs" />
     <Compile Include="IssueCreationTests.cs" />
     <Compile Include="IssueDeletionTests.cs" />
     <Compile Include="IssueProcessingTests.cs" />
-    <Compile Include="IssueProcessorControllerTests.cs" />
-    <Compile Include="IssueControllerTests.cs" />
     <Compile Include="IssueRetrievalTests.cs" />
     <Compile Include="IssueUpdatingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
