@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
@@ -13,21 +14,14 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueUpdatingTests : IssueControllerTests
+    public class IssueUpdatingTests : IssueApiTestCommon
     {
-        protected override HttpRequestMessage GetRequest()
-        {
-            var request = base.GetRequest();
-            request.Method = new HttpMethod("PATCH");
-            return request;
-        }
+        private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
 
         [Scenario]
         public void UpdatingAnIssue()
         {
             var fakeIssue = FakeIssues.FirstOrDefault();
-            JObject issue = null;
-            HttpResponseMessage response = null;
 
             "Given an existing issue".
                 f(() =>
@@ -38,15 +32,18 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             "When a PATCH request is made".
                 f(() =>
                     {
-                        issue = new JObject();
-                        issue["Title"] = "Updated title";
-                        issue["Description"] = "Updated description";                        
-                        response = Controller.Patch("1", issue).Result;
+                        var issue = new Issue();
+                        issue.Title = "Updated title";
+                        issue.Description = "Updated description";  
+                        Request.Method = new HttpMethod("PATCH");
+                        Request.RequestUri = _uriIssue1;
+                        Request.Content = new ObjectContent<Issue>(issue, new JsonMediaTypeFormatter());
+                        Response = Client.SendAsync(Request).Result;
                     });
             "Then a '200 OK' status is returned".
-                f(() => response.StatusCode.ShouldEqual(HttpStatusCode.OK));
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then the issue should be updated".
-                f(() => MockIssueStore.Verify(i => i.UpdateAsync("1", issue)));
+                f(() => MockIssueStore.Verify(i => i.UpdateAsync("1", It.IsAny<JObject>())));
         }
 
         [Scenario]
@@ -57,7 +54,13 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a PATCH request is made".
-                f(() => response = Controller.Patch("1", null).Result);
+                f(() =>
+                    {
+                        Request.Method = new HttpMethod("PATCH");
+                        Request.RequestUri = _uriIssue1;
+                        Request.Content = new ObjectContent<Issue>(new Issue(), new JsonMediaTypeFormatter());
+                        response = Client.SendAsync(Request).Result;
+                    });
             "Then a 404 Not Found status is reutnred".
                 f(() => response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }

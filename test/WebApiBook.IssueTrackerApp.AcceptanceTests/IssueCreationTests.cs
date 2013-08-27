@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -12,15 +13,9 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueCreationTests : IssueControllerTests
+    public class IssueCreationTests : IssueApiTestCommon
     {
-        protected override HttpRequestMessage GetRequest()
-        {
-            var request = base.GetRequest();
-            request.Method = HttpMethod.Post;
-            request.RequestUri = new Uri("http://localhost/issue");
-            return request;
-        }
+        private Uri _issues = new Uri("http://localhost/issue");
 
         [Scenario]
         public void CreatingAnIssue()
@@ -37,7 +32,13 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                         MockIssueStore.Setup(i => i.CreateAsync(issue)).Returns(Task.FromResult(newIssue));
                     });
             "When a POST request is made".
-                f(() => Response = Controller.Post(issue).Result);
+                f(() =>
+                    {
+                        Request.Method = HttpMethod.Post;
+                        Request.RequestUri = _issues;
+                        Request.Content = new ObjectContent<Issue>(issue, new JsonMediaTypeFormatter());
+                        Response = Client.SendAsync(Request).Result;
+                    });
             "Then a '201 Created' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.Created));
             "Then the issue should be added".
