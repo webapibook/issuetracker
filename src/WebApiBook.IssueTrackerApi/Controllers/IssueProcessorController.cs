@@ -43,7 +43,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Format("Action '{0}' is invalid", action));
 
             await _issueStore.UpdateAsync(id, issue);
-            return Request.CreateResponse(HttpStatusCode.NoContent);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         public bool IsValidAction(string action)
