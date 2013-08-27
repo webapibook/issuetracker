@@ -76,9 +76,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IssueApiTests.cs" />
     <Compile Include="IssueCreationTests.cs" />
     <Compile Include="IssueDeletionTests.cs" />
-    <Compile Include="IssueTests.cs" />
+    <Compile Include="IssueProcessingTests.cs" />
+    <Compile Include="IssueProcessorControllerTests.cs" />
+    <Compile Include="IssueControllerTests.cs" />
     <Compile Include="IssueRetrievalTests.cs" />
     <Compile Include="IssueUpdatingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

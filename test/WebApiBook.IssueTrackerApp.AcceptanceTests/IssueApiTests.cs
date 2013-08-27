@@ -1,26 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web.Http;
 using Moq;
-using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
 using WebApiContrib.Testing;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public abstract class IssueTests
+    public abstract class IssueApiTests<TController> where TController : ApiController
     {
         public Mock<IIssueStore> MockIssueStore;
-        public HttpRequestMessage Request;
         public HttpResponseMessage Response;
         public IssueLinkFactory IssueLinks;
         public IssueStateFactory StateFactory;
-        public IssueController Controller;
         public IEnumerable<Issue> FakeIssues;
+        public TController Controller { get; private set; }
+        public HttpRequestMessage Request { get; private set; }
+
+        public IssueApiTests()
+        {
+            MockIssueStore = new Mock<IIssueStore>();
+            Request = GetRequest();
+            IssueLinks = new IssueLinkFactory(Request);
+            StateFactory = new IssueStateFactory(IssueLinks);
+            Controller = GetController();
+            Controller.ConfigureForTesting(Request);
+            FakeIssues = GetFakeIssues();
+        }
 
         private IEnumerable<Issue> GetFakeIssues()
         {
@@ -30,15 +37,9 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             return fakeIssues;
         }
 
-        public IssueTests()
-        {
-            MockIssueStore = new Mock<IIssueStore>();
-            Request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/issue/1");
-            IssueLinks = new IssueLinkFactory(Request);
-            StateFactory = new IssueStateFactory(IssueLinks);
-            Controller = new IssueController(MockIssueStore.Object, StateFactory, IssueLinks);
-            Controller.ConfigureForTesting(Request);
-            FakeIssues = GetFakeIssues();
-        }
+        protected abstract TController GetController();
+
+        protected abstract HttpRequestMessage GetRequest();
+
     }
 }

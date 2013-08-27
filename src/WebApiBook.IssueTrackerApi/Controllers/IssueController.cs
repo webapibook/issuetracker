@@ -58,7 +58,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             if (issue == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            await _store.UpdateAsync(id, (dynamic) issueUpdate);
+            await _store.UpdateAsync(id, issueUpdate);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
       

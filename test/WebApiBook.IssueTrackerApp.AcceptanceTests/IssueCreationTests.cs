@@ -12,12 +12,14 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueCreationTests : IssueTests
+    public class IssueCreationTests : IssueControllerTests
     {
-        public IssueCreationTests()
+        protected override HttpRequestMessage GetRequest()
         {
-            Request.Method = HttpMethod.Post;
-            Request.RequestUri = new Uri("http://localhost/issue");
+            var request = base.GetRequest();
+            request.Method = HttpMethod.Post;
+            request.RequestUri = new Uri("http://localhost/issue");
+            return request;
         }
 
         [Scenario]
