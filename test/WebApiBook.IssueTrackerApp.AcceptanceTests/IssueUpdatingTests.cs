@@ -13,11 +13,13 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueUpdatingTests : IssueTests
+    public class IssueUpdatingTests : IssueControllerTests
     {
-        public IssueUpdatingTests()
+        protected override HttpRequestMessage GetRequest()
         {
-            Request.Method = new HttpMethod("PATCH");
+            var request = base.GetRequest();
+            request.Method = new HttpMethod("PATCH");
+            return request;
         }
 
         [Scenario]
@@ -31,14 +33,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                 f(() =>
                     {
                         MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
-                        MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
+                        MockIssueStore.Setup(i => i.UpdateAsync("1", It.IsAny<Object>())).Returns(Task.FromResult(""));
                     });
             "When a PATCH request is made".
                 f(() =>
                     {
                         issue = new JObject();
                         issue["Title"] = "Updated title";
-                        issue["Description"] = "Updated description";
+                        issue["Description"] = "Updated description";                        
                         response = Controller.Patch("1", issue).Result;
                     });
             "Then a '200 OK' status is returned".

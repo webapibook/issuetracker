@@ -11,11 +11,14 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueDeletionTests : IssueTests
+    public class IssueDeletionTests : IssueControllerTests
     {
-        public IssueDeletionTests()
+
+        protected override HttpRequestMessage GetRequest()
         {
-            Request.Method = HttpMethod.Delete;
+            var request = base.GetRequest();
+            request.Method = HttpMethod.Delete;
+            return request;
         }
 
         [Scenario]
@@ -41,14 +44,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         [Scenario]
         public void DeletingAnIssueThatDoesNotExist()
         {
-            HttpResponseMessage response = null;
-
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue) null)));
             "When a DELETE request is made".
-                f(() => response = Controller.Delete("1").Result);
+                f(() => Response = Controller.Delete("1").Result);
             "Then a '404 Not Found' status is returned".
-                f(() => response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
     }
 }
