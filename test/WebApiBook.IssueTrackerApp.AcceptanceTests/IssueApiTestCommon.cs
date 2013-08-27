@@ -40,9 +40,8 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             builder.RegisterInstance(MockIssueStore.Object).As<IIssueStore>();
             builder.RegisterType<IssueStateFactory>().As<IStateFactory<Issue, IssueState>>().InstancePerLifetimeScope();
             builder.RegisterType<IssueLinkFactory>().InstancePerLifetimeScope();
-            builder.RegisterInstance(Request);
+            builder.RegisterHttpRequestMessage(config);
             var container = builder.Build();
-            //var controller = container.Resolve<IssueController>();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
             return config;
         }
