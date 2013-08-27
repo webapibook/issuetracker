@@ -22,14 +22,17 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         public void RetrievingIssues()
         {
             IssuesState issuesState = null;
+
             "Given existing issues".
                 f(() => MockIssueStore.Setup(i => i.FindAsync()).Returns(Task.FromResult(FakeIssues)));
             "When all issues are retrieved".
                 f(() =>
                     {
-                        var response = Controller.Get().Result;
-                        issuesState = response.Content.ReadAsAsync<IssuesState>().Result;
+                        Response = Controller.Get().Result;
+                        issuesState = Response.Content.ReadAsAsync<IssuesState>().Result;
                     });
+            "Then a '200 OK' status is returned".
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then they are returned".
                 f(() =>
                     {
@@ -49,10 +52,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             "When it is retrieved".
                 f(() =>
                     {
-                        var response = Controller.Get("1").Result;
-                        var issuesState = response.Content.ReadAsAsync<IssuesState>().Result;
+                        Response = Controller.Get("1").Result;
+                        var issuesState = Response.Content.ReadAsAsync<IssuesState>().Result;
                         issue = issuesState.Issues.FirstOrDefault();
                     });
+            "Then a '200 OK' status is returned".
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then it is returned".
                 f(() => issue.ShouldNotBeNull());
             "Then it should have an id".
@@ -68,14 +73,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
                         link.ShouldNotBeNull();
-                        link.Href.ShouldEqual("http://localhost/issue/1");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue/1");
                     });
             "Then it should have a transition link".
                 f(() =>
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.IssueProcessor && l.Action == IssueLinkFactory.Actions.Transition);
                         link.ShouldNotBeNull();
-                        link.Href.ShouldEqual("http://localhost/issueprocessor/1?action=transition");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/1?action=transition");
                     });
         }
 
@@ -98,7 +103,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.IssueProcessor && l.Action == IssueLinkFactory.Actions.Close);
                         link.ShouldNotBeNull();
-                        link.Href.ShouldEqual("http://localhost/issueprocessor/1?action=close");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/1?action=close");
                     });
         }
 
@@ -122,7 +127,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.IssueProcessor && l.Action == IssueLinkFactory.Actions.Open);
                         link.ShouldNotBeNull();
-                        link.Href.ShouldEqual("http://localhost/issueprocessor/2?action=open");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/2?action=open");
 
                     });
         }
@@ -136,7 +141,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When it is retrieved".
                 f(() => response = Controller.Get("1").Result);
-            "Then a 404 Not Found status is returned".
+            "Then a '404 Not Found' status is returned".
                 f(() => response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
 

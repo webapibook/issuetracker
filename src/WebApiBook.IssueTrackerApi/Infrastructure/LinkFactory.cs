@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Web.Http.Routing;
 using WebApiBook.IssueTrackerApi.Models;
 
@@ -20,14 +21,14 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
             _controllerName = controllerName;
         }
  
-        protected string GetUrl(object routeValues, string route = "DefaultApi")
+        protected Uri GetUri(object routeValues, string route = "DefaultApi")
         {
-            return _urlHelper.Link(route, routeValues);
+            return new Uri(_urlHelper.Link(route, routeValues));
         }
  
         public Link Self(string id, string route = "DefaultApi")
         {
-            return new Link{Rel=Rels.Self, Href=GetUrl(new {controller=_controllerName, id=id}, route)};
+            return new Link{Rel=Rels.Self, Href=GetUri(new {controller=_controllerName, id=id}, route)};
         } 
  
     }

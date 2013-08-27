@@ -24,15 +24,15 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
    
         public Link Transition(string id)
         {
-            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Transition, Href = GetUrl(new { controller = "issueprocessor", id = id, action = Actions.Transition }) };
+            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Transition, Href = GetUri(new { controller = "issueprocessor", id = id, action = Actions.Transition }) };
         }
         
         public Link Open(string id) {
-            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Open, Href = GetUrl(new { controller = "issueprocessor", id = id, action = Actions.Open }) };
+            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Open, Href = GetUri(new { controller = "issueprocessor", id = id, action = Actions.Open }) };
         }
         
         public Link Close(string id) {
-            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Close, Href = GetUrl(new { controller = "issueprocessor", id = id, action = Actions.Close }) };
+            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Close, Href = GetUri(new { controller = "issueprocessor", id = id, action = Actions.Close }) };
         }
     }
 }
