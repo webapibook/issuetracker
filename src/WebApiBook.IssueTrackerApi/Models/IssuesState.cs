@@ -5,10 +5,8 @@ using System.Web;
 
 namespace WebApiBook.IssueTrackerApi.Models
 {
-    public class Link
+    public class IssuesState
     {
-        public string Rel { get; set; }
-        public Uri Href { get; set; }
-        public string Action { get; set; }
+        public IEnumerable<IssueState> Issues { get; set; }
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IssueTrackerApi.Tests")]
+[assembly: AssemblyTitle("WebApiBook.IssueTrackerApi.Fakes")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("IssueTrackerApi.Tests")]
+[assembly: AssemblyProduct("WebApiBook.IssueTrackerApi.Fakes")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e56b7140-f93b-48a0-866c-3fd4ff4db1cf")]
+[assembly: Guid("e3d19bd8-ba37-474a-b553-173a3638382c")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi", "WebApiBook.IssueTrackerApi\WebApiBook.IssueTrackerApi.csproj", "{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi.Tests", "..\test\WebApiBook.IssueTrackerApi.Tests\WebApiBook.IssueTrackerApi.Tests.csproj", "{1800F386-486A-41D7-B6B9-8E648BBB9EDD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23BA1DCB-8693-4505-8B38-FD3AF35CCF31}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -12,20 +10,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23BA1D
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApp.AcceptanceTests", "..\test\WebApiBook.IssueTrackerApp.AcceptanceTests\WebApiBook.IssueTrackerApp.AcceptanceTests.csproj", "{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Fake Github Source|Any CPU = Fake Github Source|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Fake Github Source|Any CPU.ActiveCfg = Fake Github Source|Any CPU
+		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Fake Github Source|Any CPU.Build.0 = Fake Github Source|Any CPU
 		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1800F386-486A-41D7-B6B9-8E648BBB9EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Fake Github Source|Any CPU.ActiveCfg = Release|Any CPU
+		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Fake Github Source|Any CPU.Build.0 = Release|Any CPU
+		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
