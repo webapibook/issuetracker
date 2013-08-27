@@ -16,7 +16,7 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueRetrievalTests : IssueTests
+    public class IssueRetrievalTests : IssueControllerTests
     {
         [Scenario]
         public void RetrievingIssues()
@@ -68,7 +68,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                 f(() => issue.Description.ShouldEqual(fakeIssue.Description));
             "Then it should have a state".
                 f(() => issue.Status.ShouldEqual(fakeIssue.Status));
-            "Then it should have a self link".
+            "Then it should have a 'self' link".
                 f(() =>
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
@@ -87,7 +87,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         [Scenario]
         public void RetrievingAnOpenIssue()
         {
-            var fakeIssue = FakeIssues.Single(i => i.Id == "1");
+            var fakeIssue = FakeIssues.Single(i => i.Status == IssueStatus.Open);
             IssueState issue = null;
 
             "Given an existing open issue".
@@ -98,7 +98,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                         var issuesState = Controller.Get("1").Result.Content.ReadAsAsync<IssuesState>().Result;
                         issue = issuesState.Issues.FirstOrDefault();
                     });
-            "Then it should have a close action link".
+            "Then it should have a 'close' action link".
                 f(() =>
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.IssueProcessor && l.Action == IssueLinkFactory.Actions.Close);
@@ -111,7 +111,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         public void RetrievingAClosedIssue()
         {
             Request.RequestUri = new Uri("http://localhost/issue/2");
-            var fakeIssue = FakeIssues.Single(i => i.Id == "2");
+            var fakeIssue = FakeIssues.Single(i => i.Status == IssueStatus.Closed);
             IssueState issue = null;
 
             "Given an existing closed issue".
@@ -122,7 +122,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                         var issuesState = Controller.Get("2").Result.Content.ReadAsAsync<IssuesState>().Result;
                         issue = issuesState.Issues.FirstOrDefault();
                     });
-            "Then it should have an close action link".
+            "Then it should have a 'close' action link".
                 f(() =>
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.IssueProcessor && l.Action == IssueLinkFactory.Actions.Open);
@@ -135,14 +135,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         [Scenario]
         public void RetrievingAnIssueThatDoesNotExist()
         {
-            HttpResponseMessage response = null;
-
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When it is retrieved".
-                f(() => response = Controller.Get("1").Result);
+                f(() => Response = Controller.Get("1").Result);
             "Then a '404 Not Found' status is returned".
-                f(() => response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
 
     }
