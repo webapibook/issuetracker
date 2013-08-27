@@ -16,6 +16,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
     {
         public Mock<IIssueStore> MockIssueStore;
         public HttpRequestMessage Request;
+        public HttpResponseMessage Response;
         public IssueLinkFactory IssueLinks;
         public IssueStateFactory StateFactory;
         public IssueController Controller;
@@ -35,7 +36,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             Request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/issue/1");
             IssueLinks = new IssueLinkFactory(Request);
             StateFactory = new IssueStateFactory(IssueLinks);
-            Controller = new IssueController(MockIssueStore.Object, StateFactory);
+            Controller = new IssueController(MockIssueStore.Object, StateFactory, IssueLinks);
             Controller.ConfigureForTesting(Request);
             FakeIssues = GetFakeIssues();
         }
