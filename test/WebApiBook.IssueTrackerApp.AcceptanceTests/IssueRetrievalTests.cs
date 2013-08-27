@@ -11,7 +11,6 @@ using Should;
 using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using WebApiContrib.Testing;
 using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests

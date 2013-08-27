@@ -6,7 +6,6 @@ using Moq;
 using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using WebApiContrib.Testing;
 using Autofac;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
