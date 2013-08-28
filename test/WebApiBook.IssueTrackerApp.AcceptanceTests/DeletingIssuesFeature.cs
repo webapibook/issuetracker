@@ -11,7 +11,7 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueDeletionTests : IssueApiTestCommon
+    public class DeletingIssuesFeature : IssueApiTestCommon
     {
         private Uri _uriIssue = new Uri("http://localhost/issue/1");
 
