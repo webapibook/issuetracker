@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Moq;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
 
-namespace WebApiBook.IssueTrackerApp.AcceptanceTests
+namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
-    public class IssueProcessingTests : IssueApiTestCommon
+    public class ProcessingIssues : IssuesFeature
     {
         private string _uriProcessor = "http://localhost/issueprocessor/1?";
 

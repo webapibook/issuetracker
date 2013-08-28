@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
 
-namespace WebApiBook.IssueTrackerApp.AcceptanceTests
+namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
-    public class DeletingIssuesFeature : IssueApiTestCommon
+    public class DeletingIssues : IssuesFeature
     {
         private Uri _uriIssue = new Uri("http://localhost/issue/1");
 
