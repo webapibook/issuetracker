@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
 
-namespace WebApiBook.IssueTrackerApp.AcceptanceTests
+namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
-    public class CreatingIssuesFeature : IssueApiTestCommon
+    public class CreatingIssues : IssuesFeature
     {
         private Uri _issues = new Uri("http://localhost/issue");
 

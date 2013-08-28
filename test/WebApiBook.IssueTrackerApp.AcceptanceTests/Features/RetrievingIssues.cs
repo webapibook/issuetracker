@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Moq;
 using Should;
-using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
 
-namespace WebApiBook.IssueTrackerApp.AcceptanceTests
+namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
-    public class RetrievingIssuesFeature : IssueApiTestCommon
+    public class RetrievingIssues : IssuesFeature
     {
         private Uri _uriIssues = new Uri("http://localhost/issue");
         private Uri _uriIssue1 = new Uri("http://localhost/issue/1");

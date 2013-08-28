@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json.Linq;
@@ -12,9 +10,9 @@ using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
 
-namespace WebApiBook.IssueTrackerApp.AcceptanceTests
+namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
-    public class IssueUpdatingTests : IssueApiTestCommon
+    public class UpdatingIssues : IssuesFeature
     {
         private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
 
