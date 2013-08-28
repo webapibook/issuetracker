@@ -74,12 +74,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IssueApiTestCommon.cs" />
-    <Compile Include="IssueCreationTests.cs" />
-    <Compile Include="IssueDeletionTests.cs" />
-    <Compile Include="IssueProcessingTests.cs" />
-    <Compile Include="IssueRetrievalTests.cs" />
-    <Compile Include="IssueUpdatingTests.cs" />
+    <Compile Include="IssuesFeature.cs" />
+    <Compile Include="Features\CreatingIssues.cs" />
+    <Compile Include="Features\DeletingIssues.cs" />
+    <Compile Include="Features\ProcessingIssues.cs" />
+    <Compile Include="Features\RetrievingIssues.cs" />
+    <Compile Include="Features\UpdatingIssues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
