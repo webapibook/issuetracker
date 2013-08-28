@@ -15,14 +15,14 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueRetrievalTests : IssueApiTestCommon
+    public class RetrievingIssuesFeature : IssueApiTestCommon
     {
         private Uri _uriIssues = new Uri("http://localhost/issue");
         private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
         private Uri _uriIssue2 = new Uri("http://localhost/issue/2");
  
         [Scenario]
-        public void RetrievingIssues()
+        public void RetrievingAllIssues()
         {
             IssuesState issuesState = null;
 

@@ -13,12 +13,12 @@ using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public class IssueCreationTests : IssueApiTestCommon
+    public class CreatingIssuesFeature : IssueApiTestCommon
     {
         private Uri _issues = new Uri("http://localhost/issue");
 
         [Scenario]
-        public void CreatingAnIssue()
+        public void CreatingANewIssue()
         {
             Issue issue = null;
 
