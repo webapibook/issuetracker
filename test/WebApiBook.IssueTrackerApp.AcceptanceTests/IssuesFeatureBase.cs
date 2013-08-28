@@ -10,7 +10,7 @@ using Autofac;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
-    public abstract class IssueApiTestCommon
+    public abstract class IssuesFeatureBase
     {
         public Mock<IIssueStore> MockIssueStore;
         public HttpResponseMessage Response;
@@ -20,7 +20,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         public HttpRequestMessage Request { get; private set; }
         public HttpClient Client;
 
-        public IssueApiTestCommon()
+        public IssuesFeatureBase()
         {
             MockIssueStore = new Mock<IIssueStore>();
             Request = new HttpRequestMessage();
