@@ -8,6 +8,7 @@ using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
+using System.Net.Http.Headers;
 
 namespace WebApiBook.IssueTrackerApi.Controllers
 {
@@ -29,7 +30,14 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             var result = await _store.FindAsync();
             var issuesState = new IssuesState();
             issuesState.Issues = result.Select(i => _stateFactory.Create(i));
-            return Request.CreateResponse(HttpStatusCode.OK, issuesState);
+            
+            var response = Request.CreateResponse(HttpStatusCode.OK, issuesState);
+            
+            response.Headers.CacheControl = new CacheControlHeaderValue();
+            response.Headers.CacheControl.Public = true;
+            response.Headers.CacheControl.MaxAge = TimeSpan.FromMinutes(5);
+
+            return response;
         } 
 
         public async Task<HttpResponseMessage> Get(string id)
@@ -38,7 +46,15 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             if (result == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            return Request.CreateResponse(HttpStatusCode.OK, _stateFactory.Create(result));
+            var response = Request.CreateResponse(HttpStatusCode.OK, _stateFactory.Create(result));
+
+            response.Headers.CacheControl = new CacheControlHeaderValue();
+            response.Headers.CacheControl.Public = true;
+            response.Headers.CacheControl.MaxAge = TimeSpan.FromMinutes(5);
+
+            response.Content.Headers.LastModified = result.LastModified;
+
+            return response;
         }
 
         public async Task<HttpResponseMessage> Post(Issue issue)

@@ -7,6 +7,7 @@ using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
 using Autofac;
+using System;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
@@ -49,8 +50,8 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         private IEnumerable<Issue> GetFakeIssues()
         {
             var fakeIssues = new List<Issue>();
-            fakeIssues.Add(new Issue { Id = "1", Title = "An issue", Description = "This is an issue", Status = IssueStatus.Open });
-            fakeIssues.Add(new Issue { Id = "2", Title = "Another issue", Description = "This is another issue", Status = IssueStatus.Closed });
+            fakeIssues.Add(new Issue { Id = "1", Title = "An issue", Description = "This is an issue", Status = IssueStatus.Open, LastModified = new DateTime(2013, 9, 4)});
+            fakeIssues.Add(new Issue { Id = "2", Title = "Another issue", Description = "This is another issue", Status = IssueStatus.Closed, LastModified = new DateTime(2013, 9, 2) });
             return fakeIssues;
         }
     }
