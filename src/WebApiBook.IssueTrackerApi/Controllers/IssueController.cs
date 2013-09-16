@@ -46,13 +46,22 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             if (result == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            var response = Request.CreateResponse(HttpStatusCode.OK, _stateFactory.Create(result));
+            HttpResponseMessage response = null;
 
+            if( Request.Headers.IfModifiedSince.HasValue &&
+                Request.Headers.IfModifiedSince == result.LastModified)
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotModified);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, _stateFactory.Create(result));
+                response.Content.Headers.LastModified = result.LastModified;
+            }
+            
             response.Headers.CacheControl = new CacheControlHeaderValue();
             response.Headers.CacheControl.Public = true;
             response.Headers.CacheControl.MaxAge = TimeSpan.FromMinutes(5);
-
-            response.Content.Headers.LastModified = result.LastModified;
 
             return response;
         }
@@ -71,8 +80,15 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             if (issue == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
+            if (!Request.Headers.IfModifiedSince.HasValue)
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Missing IfModifiedSince header");
+
+            if (Request.Headers.IfModifiedSince != issue.LastModified)
+               return Request.CreateResponse(HttpStatusCode.Conflict);
+            
             await _store.UpdateAsync(id, issueUpdate);
             return Request.CreateResponse(HttpStatusCode.OK);
+            
         }
       
         public async Task<HttpResponseMessage> Delete(string id)

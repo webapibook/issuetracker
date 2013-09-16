@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\CacheValidation.cs" />
+    <Compile Include="Features\ConflictDetection.cs" />
     <Compile Include="Features\OutputCaching.cs" />
     <Compile Include="IssuesFeature.cs" />
     <Compile Include="Features\CreatingIssues.cs" />

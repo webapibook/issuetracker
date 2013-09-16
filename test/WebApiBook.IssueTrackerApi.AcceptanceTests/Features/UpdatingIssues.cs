@@ -34,6 +34,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                         issue.Title = "Updated title";
                         issue.Description = "Updated description";  
                         Request.Method = new HttpMethod("PATCH");
+                        Request.Headers.IfModifiedSince = fakeIssue.LastModified;
                         Request.RequestUri = _uriIssue1;
                         Request.Content = new ObjectContent<Issue>(issue, new JsonMediaTypeFormatter());
                         Response = Client.SendAsync(Request).Result;
