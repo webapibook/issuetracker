@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
+using Moq;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
@@ -25,7 +26,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                         issue.Description = "A new issue";
                         issue.Title = "A new issue";
                         var newIssue = new Issue {Id = "1"};
-                        MockIssueStore.Setup(i => i.CreateAsync(issue)).Returns(Task.FromResult(newIssue));
+                        MockIssueStore.Setup(i => i.CreateAsync(issue, It.IsAny<string>())).Returns(Task.FromResult(newIssue));
                     });
             "When a POST request is made".
                 f(() =>
@@ -38,7 +39,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
             "Then a '201 Created' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.Created));
             "Then the issue should be added".
-                f(() => MockIssueStore.Verify(i => i.CreateAsync(issue)));
+                f(() => MockIssueStore.Verify(i => i.CreateAsync(issue, It.IsAny<string>())));
             "Then the response location header will be set to the resource location".
                 f(() => Response.Headers.Location.AbsoluteUri.ShouldEqual("http://localhost/issue/1"));
         }

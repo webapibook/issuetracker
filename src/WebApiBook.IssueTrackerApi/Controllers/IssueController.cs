@@ -68,7 +68,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 
         public async Task<HttpResponseMessage> Post(Issue issue)
         {
-            var newIssue = await _store.CreateAsync(issue);
+            var newIssue = await _store.CreateAsync(issue, User.Identity.Name);
             var response = Request.CreateResponse(HttpStatusCode.Created);
             response.Headers.Location = _linkFactory.Self(newIssue.Id).Href;
             return response;
@@ -85,8 +85,8 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 
             if (Request.Headers.IfModifiedSince != issue.LastModified)
                return Request.CreateResponse(HttpStatusCode.Conflict);
-            
-            await _store.UpdateAsync(id, issueUpdate);
+
+            await _store.UpdateAsync(id, issueUpdate, User.Identity.Name);
             return Request.CreateResponse(HttpStatusCode.OK);
             
         }

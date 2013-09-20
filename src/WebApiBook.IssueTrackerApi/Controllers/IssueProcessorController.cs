@@ -42,7 +42,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             if (!isValid)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Format("Action '{0}' is invalid", action));
 
-            await _issueStore.UpdateAsync(id, issue);
+            await _issueStore.UpdateAsync(id, issue, User.Identity.Name);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 

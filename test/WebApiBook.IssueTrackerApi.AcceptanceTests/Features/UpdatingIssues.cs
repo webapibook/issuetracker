@@ -25,7 +25,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() =>
                     {
                         MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
-                        MockIssueStore.Setup(i => i.UpdateAsync("1", It.IsAny<Object>())).Returns(Task.FromResult(""));
+                        MockIssueStore.Setup(i => i.UpdateAsync("1", It.IsAny<Object>(), It.IsAny<string>())).Returns(Task.FromResult(""));
                     });
             "When a PATCH request is made".
                 f(() =>
@@ -42,7 +42,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then the issue should be updated".
-                f(() => MockIssueStore.Verify(i => i.UpdateAsync("1", It.IsAny<JObject>())));
+                f(() => MockIssueStore.Verify(i => i.UpdateAsync("1", It.IsAny<JObject>(), It.IsAny<string>())));
         }
 
         [Scenario]
