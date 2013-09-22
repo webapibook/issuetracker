@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Moq;
 using Should;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
@@ -17,10 +19,8 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         private Uri _uriIssue2 = new Uri("http://localhost/issue/2");
  
         [Scenario]
-        public void RetrievingAllIssues()
+        public void RetrievingAllIssues(IssuesState issuesState)
         {
-            IssuesState issuesState = null;
-
             "Given existing issues".
                 f(() => MockIssueStore.Setup(i => i.FindAsync()).Returns(Task.FromResult(FakeIssues)));
             "When all issues are retrieved".
@@ -38,16 +38,24 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                         issuesState.Issues.FirstOrDefault(i => i.Id == "1").ShouldNotBeNull();
                         issuesState.Issues.FirstOrDefault(i => i.Id == "2").ShouldNotBeNull();
                     });
+            "Then the collection should have a 'self' link".
+                f(() =>
+                    {
+                        var link = issuesState.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
+                        link.ShouldNotBeNull();
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue");
+                    });
         }
 
         [Scenario]
-        public void RetrievingAnIssue()
+        public void RetrievingAnIssue(IssueState issue, Issue fakeIssue)
         {
-            IssueState issue = null;
-
-            var fakeIssue = FakeIssues.FirstOrDefault();
             "Given an existing issue".
-                f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue)));
+                f(() =>
+                    {
+                        fakeIssue = FakeIssues.FirstOrDefault();
+                        MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
+                    });
             "When it is retrieved".
                 f(() =>
                     {
@@ -84,13 +92,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void RetrievingAnOpenIssue()
+        public void RetrievingAnOpenIssue(Issue fakeIssue, IssueState issue)
         {
-            var fakeIssue = FakeIssues.Single(i => i.Status == IssueStatus.Open);
-            IssueState issue = null;
-
             "Given an existing open issue".
-                f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue)));
+                f(() =>
+                    {
+                        fakeIssue = FakeIssues.Single(i => i.Status == IssueStatus.Open);
+                        MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
+                    });
             "When it is retrieved".
                 f(() =>
                     {
@@ -107,13 +116,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void RetrievingAClosedIssue()
+        public void RetrievingAClosedIssue(Issue fakeIssue, IssueState issue)
         {
-            var fakeIssue = FakeIssues.Single(i => i.Status == IssueStatus.Closed);
-            IssueState issue = null;
-
             "Given an existing closed issue".
-                f(() => MockIssueStore.Setup(i => i.FindAsync("2")).Returns(Task.FromResult(fakeIssue)));
+                f(() =>
+                    {
+                        fakeIssue = FakeIssues.Single(i => i.Status == IssueStatus.Closed);
+                        MockIssueStore.Setup(i => i.FindAsync("2")).Returns(Task.FromResult(fakeIssue));
+                    });
             "When it is retrieved".
                 f(() =>
                     {
