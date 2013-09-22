@@ -14,13 +14,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         private Uri _uriIssue = new Uri("http://localhost/issue/1");
 
         [Scenario]
-        public void DeletingAnIssue()
+        public void DeletingAnIssue(Issue fakeIssue)
         {
-            var fakeIssue = FakeIssues.FirstOrDefault();
-
             "Given an existing issue".
                 f(() =>
                     {
+                        fakeIssue = FakeIssues.FirstOrDefault();
                         MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
                         MockIssueStore.Setup(i => i.DeleteAsync("1")).Returns(Task.FromResult(""));
                     });

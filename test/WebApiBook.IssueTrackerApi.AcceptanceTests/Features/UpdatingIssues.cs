@@ -17,13 +17,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
 
         [Scenario]
-        public void UpdatingAnIssue()
+        public void UpdatingAnIssue(Issue fakeIssue)
         {
-            var fakeIssue = FakeIssues.FirstOrDefault();
-
             "Given an existing issue".
                 f(() =>
                     {
+                        fakeIssue = FakeIssues.FirstOrDefault();
                         MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
                         MockIssueStore.Setup(i => i.UpdateAsync("1", It.IsAny<Object>())).Returns(Task.FromResult(""));
                     });
@@ -45,10 +44,8 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void UpdatingAnIssueThatDoesNotExist()
+        public void UpdatingAnIssueThatDoesNotExist(HttpResponseMessage response)
         {
-            HttpResponseMessage response = null;
-
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a PATCH request is made".

@@ -29,6 +29,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             var result = await _store.FindAsync();
             var issuesState = new IssuesState();
             issuesState.Issues = result.Select(i => _stateFactory.Create(i));
+            issuesState.Links.Add(new Link{Href=Request.RequestUri, Rel = LinkFactory.Rels.Self});
             return Request.CreateResponse(HttpStatusCode.OK, issuesState);
         } 
 

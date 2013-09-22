@@ -14,10 +14,8 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         private Uri _issues = new Uri("http://localhost/issue");
 
         [Scenario]
-        public void CreatingANewIssue()
+        public void CreatingANewIssue(Issue issue)
         {
-            Issue issue = null;
-
             "Given a new issue".
                 f(() =>
                     {

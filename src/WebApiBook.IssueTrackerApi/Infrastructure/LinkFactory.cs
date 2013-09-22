@@ -5,7 +5,7 @@ using WebApiBook.IssueTrackerApi.Models;
 
 namespace WebApiBook.IssueTrackerApi.Infrastructure
 {
-    public class LinkFactory
+    public abstract class LinkFactory
     {
         private readonly UrlHelper _urlHelper;
         private readonly string _controllerName;
