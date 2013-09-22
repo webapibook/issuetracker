@@ -14,13 +14,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         private string _uriProcessor = "http://localhost/issueprocessor/1?";
 
         [Scenario]
-        public void ClosingAnOpenIssue()
+        public void ClosingAnOpenIssue(Issue issue)
         {
-            var issue = FakeIssues.FirstOrDefault(i=>i.Status == IssueStatus.Open);
-
             "Given an existing open issue".
                 f(() =>
                     {
+                        issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Open);
                         MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
                         MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                     });
@@ -42,13 +41,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void TransitioningAnOpenIssue()
+        public void TransitioningAnOpenIssue(Issue issue)
         {
-            var issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Open);
-
             "Given an existing open issue".
                 f(() =>
                 {
+                    issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Open);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
@@ -70,13 +68,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void ClosingAClosedIssue()
+        public void ClosingAClosedIssue(Issue issue)
         {
-            var issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
-
             "Given an existing closed issue".
                 f(() =>
                 {
+                    issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
@@ -92,13 +89,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void OpeningAClosedIssue()
+        public void OpeningAClosedIssue(Issue issue)
         {
-            var issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
-
-            "Given an existing closed issue".
+           "Given an existing closed issue".
                 f(() =>
                 {
+                    issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
@@ -120,13 +116,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void TransitioningAClosedIssue()
+        public void TransitioningAClosedIssue(Issue issue)
         {
-            var issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
-
             "Given an existing closed issue".
                 f(() =>
                 {
+                    issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
@@ -148,13 +143,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void OpeningAnOpenIssue()
+        public void OpeningAnOpenIssue(Issue issue)
         {
-            var issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
-
             "Given an existing open issue".
                 f(() =>
                 {
+                    issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
                     MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
                 });
