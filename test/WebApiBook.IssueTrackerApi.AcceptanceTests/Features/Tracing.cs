@@ -13,7 +13,7 @@ using WebApiBook.IssueTrackerApi.Controllers;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
-    public class DiagnosticsTracking : IssuesFeature
+    public class Tracing : IssuesFeature
     {
         private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
 

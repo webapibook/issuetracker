@@ -96,7 +96,7 @@
     <Compile Include="Features\CacheValidation.cs" />
     <Compile Include="Features\ChangeAuditing.cs" />
     <Compile Include="Features\ConflictDetection.cs" />
-    <Compile Include="Features\DiagnosticsTracing.cs" />
+    <Compile Include="Features\Tracing.cs" />
     <Compile Include="Features\OutputCaching.cs" />
     <Compile Include="IssuesFeature.cs" />
     <Compile Include="Features\CreatingIssues.cs" />
