@@ -11,6 +11,7 @@ using System;
 using HawkNet;
 using HawkNet.WebApi;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.Tracing;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
@@ -24,9 +25,17 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         public HttpRequestMessage Request { get; private set; }
         public HttpClient Client;
         public HawkCredential Credentials;
+        public HttpConfiguration Configuration;
+        public Mock<ITraceWriter> MockTracer;
 
         public IssuesFeature()
         {
+            MockIssueStore = new Mock<IIssueStore>();
+            Request = new HttpRequestMessage();
+            IssueLinks = new IssueLinkFactory(Request);
+            StateFactory = new IssueStateFactory(IssueLinks);
+            FakeIssues = GetFakeIssues();
+
             Credentials = new HawkCredential
             {
                 Id = "TestClient",
@@ -34,19 +43,17 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
                 Key = "werxhqb98rpaxn39848xrunpaw3489ruxnpa98w4rxn",
                 User = "test"
             };
-            
-            MockIssueStore = new Mock<IIssueStore>();
-            Request = new HttpRequestMessage();
-            IssueLinks = new IssueLinkFactory(Request);
-            StateFactory = new IssueStateFactory(IssueLinks);
-            FakeIssues = GetFakeIssues();
 
-            var server = new HttpServer(GetConfiguration());
+            Configuration = GetConfiguration();
+
+            var server = new HttpServer(Configuration);
             Client = new HttpClient(new HawkClientMessageHandler(server, Credentials));
         }
 
         private HttpConfiguration GetConfiguration()
         {
+            MockTracer = new Mock<ITraceWriter>(MockBehavior.Loose);
+
             var config = new HttpConfiguration();
 
             var serverHandler = new HawkMessageHandler(new HttpControllerDispatcher(config), (id) => Credentials);
@@ -58,8 +65,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             builder.RegisterType<IssueStateFactory>().As<IStateFactory<Issue, IssueState>>().InstancePerLifetimeScope();
             builder.RegisterType<IssueLinkFactory>().InstancePerLifetimeScope();
             builder.RegisterHttpRequestMessage(config);
+            builder.RegisterInstance(MockTracer.Object).As<ITraceWriter>();
+            
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            config.Services.Replace(typeof(ITraceWriter), MockTracer.Object);
+            
             return config;
         }
 

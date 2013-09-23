@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
 using System.Net.Http.Headers;
+using System.Web.Http.Tracing;
 
 namespace WebApiBook.IssueTrackerApi.Controllers
 {
@@ -17,16 +18,25 @@ namespace WebApiBook.IssueTrackerApi.Controllers
         private readonly IIssueStore _store;
         private readonly IStateFactory<Issue, IssueState> _stateFactory;
         private readonly IssueLinkFactory _linkFactory;
+        private readonly ITraceWriter _tracer;
+        private static readonly string TraceCategory = typeof(IssueController).FullName;
 
-        public IssueController(IIssueStore store, IStateFactory<Issue, IssueState> stateFactory, IssueLinkFactory linkFactory )
+        public IssueController(IIssueStore store, 
+            IStateFactory<Issue, IssueState> stateFactory, 
+            IssueLinkFactory linkFactory,
+            ITraceWriter tracer)
         {
             _store = store;
             _stateFactory = stateFactory;
             _linkFactory = linkFactory;
+            _tracer = tracer;
         }
 
         public async Task<HttpResponseMessage> Get()
         {
+            _tracer.Trace(Request,
+                TraceCategory, TraceLevel.Debug, "Retrieving all issues");
+
             var result = await _store.FindAsync();
             var issuesState = new IssuesState();
             issuesState.Issues = result.Select(i => _stateFactory.Create(i));
@@ -44,7 +54,12 @@ namespace WebApiBook.IssueTrackerApi.Controllers
         {
             var result = await _store.FindAsync(id);
             if (result == null)
+            {
+                _tracer.Trace(Request, 
+                    TraceCategory, TraceLevel.Debug, "Issue with id {0} not found", id);
+                
                 return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
 
             HttpResponseMessage response = null;
 
@@ -52,11 +67,17 @@ namespace WebApiBook.IssueTrackerApi.Controllers
                 Request.Headers.IfModifiedSince == result.LastModified)
             {
                 response = Request.CreateResponse(HttpStatusCode.NotModified);
+
+                _tracer.Trace(Request,
+                    TraceCategory, TraceLevel.Debug, "Returning 'Not Modified' for Issue with id {0}", id);
             }
             else
             {
                 response = Request.CreateResponse(HttpStatusCode.OK, _stateFactory.Create(result));
                 response.Content.Headers.LastModified = result.LastModified;
+
+                _tracer.Trace(Request,
+                    TraceCategory, TraceLevel.Debug, "Returning 'Ok' for Issue with id {0}", id);
             }
             
             response.Headers.CacheControl = new CacheControlHeaderValue();
@@ -70,6 +91,10 @@ namespace WebApiBook.IssueTrackerApi.Controllers
         public async Task<HttpResponseMessage> Post(Issue issue)
         {
             var newIssue = await _store.CreateAsync(issue, User.Identity.Name);
+
+            _tracer.Trace(Request,
+                    TraceCategory, TraceLevel.Debug, "Created new Issue with id {0}", newIssue.Id);
+
             var response = Request.CreateResponse(HttpStatusCode.Created);
             response.Headers.Location = _linkFactory.Self(newIssue.Id).Href;
             return response;
@@ -83,12 +108,26 @@ namespace WebApiBook.IssueTrackerApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
             if (!Request.Headers.IfModifiedSince.HasValue)
+            {
+                _tracer.Trace(Request,
+                    TraceCategory, TraceLevel.Debug, "Issue with id {0} not updated. Missing IfModifiedSince header", id);
+
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Missing IfModifiedSince header");
+            }
 
             if (Request.Headers.IfModifiedSince != issue.LastModified)
-               return Request.CreateResponse(HttpStatusCode.Conflict);
+            {
+                _tracer.Trace(Request,
+                    TraceCategory, TraceLevel.Debug, "Issue with id {0} not updated. Conflict", id);
+
+                return Request.CreateResponse(HttpStatusCode.Conflict);
+            }
 
             await _store.UpdateAsync(id, issueUpdate, User.Identity.Name);
+
+            _tracer.Trace(Request,
+                    TraceCategory, TraceLevel.Debug, "Updated Issue with id {0}", id);
+
             return Request.CreateResponse(HttpStatusCode.OK);
             
         }
@@ -97,8 +136,17 @@ namespace WebApiBook.IssueTrackerApi.Controllers
         {
             var issue = await _store.FindAsync(id);
             if (issue == null)
+            {
+                _tracer.Trace(Request,
+                   TraceCategory, TraceLevel.Debug, "Issue with id {0} not deleted. Not Found", id);
+
                 return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
             await _store.DeleteAsync(id);
+
+            _tracer.Trace(Request,
+                   TraceCategory, TraceLevel.Debug, "Deleted Issue with id {0}", id);
+
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
