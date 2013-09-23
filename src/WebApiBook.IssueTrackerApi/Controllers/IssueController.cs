@@ -66,6 +66,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             return response;
         }
 
+        [Authorize]
         public async Task<HttpResponseMessage> Post(Issue issue)
         {
             var newIssue = await _store.CreateAsync(issue, User.Identity.Name);
@@ -74,6 +75,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             return response;
         }
 
+        [Authorize]
         public async Task<HttpResponseMessage> Patch(string id, JObject issueUpdate)
         {
             var issue = await _store.FindAsync(id);
