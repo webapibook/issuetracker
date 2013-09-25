@@ -52,12 +52,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 
         private HttpConfiguration GetConfiguration()
         {
-            MockTracer = new Mock<ITraceWriter>(MockBehavior.Loose);
-
             var config = new HttpConfiguration();
 
             var serverHandler = new HawkMessageHandler(new HttpControllerDispatcher(config), (id) => Credentials);
-            
+
+            MockTracer = new Mock<ITraceWriter>(MockBehavior.Loose);
+
             config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}", new { id = RouteParameter.Optional }, null, serverHandler);
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(typeof(IssueController).Assembly);
@@ -66,7 +66,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             builder.RegisterType<IssueLinkFactory>().InstancePerLifetimeScope();
             builder.RegisterHttpRequestMessage(config);
             builder.RegisterInstance(MockTracer.Object).As<ITraceWriter>();
-            
+
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
             config.Services.Replace(typeof(ITraceWriter), MockTracer.Object);
