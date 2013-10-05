@@ -15,7 +15,7 @@ namespace WebApiBook.IssueTrackerApi.Models
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public IssueStatus Status { get; set; }
+        public string Status { get; set; }
         public IList<Link> Links { get; private set; } 
     }
 }

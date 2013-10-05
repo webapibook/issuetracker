@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Moq;
+using Newtonsoft.Json.Linq;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
@@ -21,7 +23,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Open);
                         MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
-                        MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
+                        MockIssueStore.Setup(i => i.UpdateAsync(issue)).Returns(Task.FromResult(""));
                     });
             "When a POST request is made to the issue processor AND the action is 'close'".
                 f(() =>
@@ -36,7 +38,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() =>
                     {
                         issue.Status.ShouldEqual(IssueStatus.Closed);
-                        MockIssueStore.Verify(i => i.UpdateAsync("1", issue));
+                        MockIssueStore.Verify(i => i.UpdateAsync(issue));
                     });
         }
 
@@ -48,7 +50,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 {
                     issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Open);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
-                    MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
+                    MockIssueStore.Setup(i => i.UpdateAsync(issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'transition'".
                 f(() =>
@@ -63,7 +65,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() =>
                 {
                     issue.Status.ShouldEqual(IssueStatus.Closed);
-                    MockIssueStore.Verify(i => i.UpdateAsync("1", issue));
+                    MockIssueStore.Verify(i => i.UpdateAsync(issue));
                 });
         }
 
@@ -75,7 +77,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 {
                     issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
-                    MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
+                    MockIssueStore.Setup(i => i.UpdateAsync(issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'close'".
                 f(() =>
@@ -96,7 +98,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 {
                     issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
-                    MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
+                    MockIssueStore.Setup(i => i.UpdateAsync(issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
                 f(() =>
@@ -111,7 +113,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() =>
                 {
                     issue.Status.ShouldEqual(IssueStatus.Open);
-                    MockIssueStore.Verify(i => i.UpdateAsync("1", issue));
+                    MockIssueStore.Verify(i => i.UpdateAsync(issue));
                 });
         }
 
@@ -123,7 +125,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 {
                     issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
-                    MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
+                    MockIssueStore.Setup(i => i.UpdateAsync(issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
                 f(() =>
@@ -138,7 +140,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() =>
                 {
                     issue.Status.ShouldEqual(IssueStatus.Open);
-                    MockIssueStore.Verify(i => i.UpdateAsync("1", issue));
+                    MockIssueStore.Verify(i => i.UpdateAsync(issue));
                 });
         }
 
@@ -150,7 +152,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 {
                     issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
-                    MockIssueStore.Setup(i => i.UpdateAsync("1", issue)).Returns(Task.FromResult(""));
+                    MockIssueStore.Setup(i => i.UpdateAsync(issue)).Returns(Task.FromResult(""));
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
                 f(() =>

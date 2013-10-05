@@ -22,8 +22,11 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                         issue = new Issue {Description = "A new issue", Title = "A new issue"};
                         issue.Description = "A new issue";
                         issue.Title = "A new issue";
-                        var newIssue = new Issue {Id = "1"};
-                        MockIssueStore.Setup(i => i.CreateAsync(issue)).Returns(Task.FromResult(newIssue));
+                        MockIssueStore.Setup(i => i.CreateAsync(issue)).Returns(() =>
+                            {
+                                issue.Id = "1";
+                                return Task.FromResult("");
+                            });
                     });
             "When a POST request is made".
                 f(() =>
