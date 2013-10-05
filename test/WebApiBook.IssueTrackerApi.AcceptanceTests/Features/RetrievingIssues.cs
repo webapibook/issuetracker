@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Moq;
 using Should;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
+using WebApiContrib.CollectionJson;
+using WebApiContrib.Formatting.CollectionJson.Client;
 using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
@@ -48,6 +51,33 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
+        public void RetrievingAllIssuesWithCollectionJson(IReadDocument readDocument)
+        {
+            "Given existing issues".
+                f(() => MockIssueStore.Setup(i => i.FindAsync()).Returns(Task.FromResult(FakeIssues)));
+            "When all issues are retrieved as Collection+Json".
+                f(() =>
+                    {
+                        Request.RequestUri = _uriIssues;
+                        Request.Headers.Accept.Clear();
+                        Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.collection+json"));
+                        Response = Client.SendAsync(Request).Result;
+                        readDocument = Response.Content.ReadAsAsync<ReadDocument>(new[] {new CollectionJsonFormatter()}).Result;
+                    });
+            "Then a '200 OK' status is returned".
+               f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
+            "Then a Collection+Json document is returned".
+                f(() =>
+                    {
+                        readDocument.ShouldNotBeNull();
+                        readDocument.Collection.Href.AbsoluteUri.ShouldEqual("http://localhost/issue");
+                    });
+            "Then the Search Query is returned".
+                f(() => readDocument.Collection.Queries.SingleOrDefault(
+                            q => q.Rel == IssueLinkFactory.Rels.SearchQuery).ShouldNotBeNull());
+        }
+
+        [Scenario]
         public void RetrievingAnIssue(IssueState issue, Issue fakeIssue)
         {
             "Given an existing issue".
@@ -74,7 +104,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
             "Then it should have a description".
                 f(() => issue.Description.ShouldEqual(fakeIssue.Description));
             "Then it should have a state".
-                f(() => issue.Status.ShouldEqual(fakeIssue.Status));
+                f(() => issue.Status.ShouldEqual(Enum.GetName(typeof(IssueStatus), fakeIssue.Status)));
             "Then it should have a 'self' link".
                 f(() =>
                     {

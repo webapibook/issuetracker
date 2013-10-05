@@ -26,27 +26,35 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 
         public async Task<HttpResponseMessage> Get()
         {
-            var result = await _store.FindAsync();
+            var issues = await _store.FindAsync();
             var issuesState = new IssuesState();
-            issuesState.Issues = result.Select(i => _stateFactory.Create(i));
+            issuesState.Issues = issues.Select(i => _stateFactory.Create(i));
             issuesState.Links.Add(new Link{Href=Request.RequestUri, Rel = LinkFactory.Rels.Self});
             return Request.CreateResponse(HttpStatusCode.OK, issuesState);
         } 
 
         public async Task<HttpResponseMessage> Get(string id)
         {
-            var result = await _store.FindAsync(id);
-            if (result == null)
+            var issue = await _store.FindAsync(id);
+            if (issue == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
+            return Request.CreateResponse(HttpStatusCode.OK, _stateFactory.Create(issue));
+        }
 
-            return Request.CreateResponse(HttpStatusCode.OK, _stateFactory.Create(result));
+        public async Task<HttpResponseMessage> GetSearch(string searchText)
+        {
+            var issues = await _store.FindAsyncQuery(searchText);
+            var issuesState = new IssuesState();
+            issuesState.Issues = issues.Select(i => _stateFactory.Create(i));
+            issuesState.Links.Add(new Link { Href = Request.RequestUri, Rel = LinkFactory.Rels.Self });
+            return Request.CreateResponse(HttpStatusCode.OK, issuesState);
         }
 
         public async Task<HttpResponseMessage> Post(Issue issue)
         {
-            var newIssue = await _store.CreateAsync(issue);
+            await _store.CreateAsync(issue);
             var response = Request.CreateResponse(HttpStatusCode.Created);
-            response.Headers.Location = _linkFactory.Self(newIssue.Id).Href;
+            response.Headers.Location = _linkFactory.Self(issue.Id).Href;
             return response;
         }
 

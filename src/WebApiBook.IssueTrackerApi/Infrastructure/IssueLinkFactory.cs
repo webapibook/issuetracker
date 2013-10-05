@@ -9,6 +9,7 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
         
         public new class Rels : LinkFactory.Rels {
             public const string IssueProcessor = Prefix + "issue-processor";
+            public const string SearchQuery = Prefix + "search";
         }
         
         public class Actions {
