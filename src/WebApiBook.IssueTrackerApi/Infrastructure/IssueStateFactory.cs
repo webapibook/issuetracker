@@ -1,4 +1,5 @@
-﻿using WebApiBook.IssueTrackerApi.Models;
+﻿using System;
+using WebApiBook.IssueTrackerApi.Models;
 
 namespace WebApiBook.IssueTrackerApi.Infrastructure
 {
@@ -18,14 +19,14 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
                     Id = issue.Id,
                     Title = issue.Title,
                     Description = issue.Description,
-                    Status = issue.Status
+                    Status = Enum.GetName(typeof(IssueStatus), issue.Status)
                 };
  
             //add hypermedia
             model.Links.Add(_links.Self(issue.Id));
             model.Links.Add(_links.Transition(issue.Id));
             
-            switch (model.Status) {
+            switch (issue.Status) {
                 case IssueStatus.Closed:
                     model.Links.Add(_links.Open(issue.Id));
                     break;

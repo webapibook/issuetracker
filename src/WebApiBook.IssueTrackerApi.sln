@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23BA1D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi.AcceptanceTests", "..\test\WebApiBook.IssueTrackerApi.AcceptanceTests\WebApiBook.IssueTrackerApi.AcceptanceTests.csproj", "{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi.SelfHost", "WebApiBook.IssueTrackerApi.SelfHost\WebApiBook.IssueTrackerApi.SelfHost.csproj", "{5AC1AF4C-FB00-44F6-B8CE-B472A96C5B4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,12 @@ Global
 		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Fake Github Source|Any CPU.Build.0 = Release|Any CPU
 		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AC1AF4C-FB00-44F6-B8CE-B472A96C5B4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC1AF4C-FB00-44F6-B8CE-B472A96C5B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC1AF4C-FB00-44F6-B8CE-B472A96C5B4B}.Fake Github Source|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC1AF4C-FB00-44F6-B8CE-B472A96C5B4B}.Fake Github Source|Any CPU.Build.0 = Release|Any CPU
+		{5AC1AF4C-FB00-44F6-B8CE-B472A96C5B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC1AF4C-FB00-44F6-B8CE-B472A96C5B4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

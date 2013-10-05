@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using WebApiBook.IssueTrackerApi.Models;
 
 namespace WebApiBook.IssueTrackerApi.Infrastructure
@@ -9,10 +10,10 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
     {
         Task<IEnumerable<Issue>> FindAsync();
         Task<Issue> FindAsync(string issueId);
-        Task<IEnumerable<Issue>> FindAsyncQuery(dynamic values);
-        Task UpdateAsync(string issueId, dynamic values);
+        Task<IEnumerable<Issue>> FindAsyncQuery(string searchText);
+        Task UpdateAsync(string issueId, JObject values);
+        Task UpdateAsync(Issue issue);
         Task DeleteAsync(string issueId);
-        Task<Issue> CreateAsync(Issue issue);
-        Task Action(string issueId, string action, dynamic values);
+        Task CreateAsync(Issue issue);
     }
 }

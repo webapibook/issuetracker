@@ -24,7 +24,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         fakeIssue = FakeIssues.FirstOrDefault();
                         MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
-                        MockIssueStore.Setup(i => i.UpdateAsync("1", It.IsAny<Object>())).Returns(Task.FromResult(""));
+                        MockIssueStore.Setup(i => i.UpdateAsync("1", It.IsAny<JObject>())).Returns(Task.FromResult(""));
                     });
             "When a PATCH request is made".
                 f(() =>

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
-using Autofac.Integration.WebApi;
 using Moq;
 using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using Autofac;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 {
@@ -27,23 +25,10 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
             IssueLinks = new IssueLinkFactory(Request);
             StateFactory = new IssueStateFactory(IssueLinks);
             FakeIssues = GetFakeIssues();
-            var server = new HttpServer(GetConfiguration());
-            Client = new HttpClient(server);
-        }
-
-        private HttpConfiguration GetConfiguration()
-        {
             var config = new HttpConfiguration();
-            config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}", new { id = RouteParameter.Optional });
-            var builder = new ContainerBuilder();
-            builder.RegisterApiControllers(typeof(IssueController).Assembly);
-            builder.RegisterInstance(MockIssueStore.Object).As<IIssueStore>();
-            builder.RegisterType<IssueStateFactory>().As<IStateFactory<Issue, IssueState>>().InstancePerLifetimeScope();
-            builder.RegisterType<IssueLinkFactory>().InstancePerLifetimeScope();
-            builder.RegisterHttpRequestMessage(config);
-            var container = builder.Build();
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-            return config;
+            WebApiBook.IssueTrackerApi.WebApiConfiguration.Configure(config, MockIssueStore.Object);
+            var server = new HttpServer(config);
+            Client = new HttpClient(server);
         }
 
         private IEnumerable<Issue> GetFakeIssues()

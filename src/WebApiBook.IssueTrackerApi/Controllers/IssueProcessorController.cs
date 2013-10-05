@@ -31,6 +31,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 
                 if (issue == null)
                     return Request.CreateResponse(HttpStatusCode.NotFound);
+                
                 if ((action == IssueLinkFactory.Actions.Open || action == IssueLinkFactory.Actions.Transition) && issue.Status == IssueStatus.Closed)
                     issue.Status = IssueStatus.Open;
                 else if ((action == IssueLinkFactory.Actions.Close || action == IssueLinkFactory.Actions.Transition) && issue.Status == IssueStatus.Open)
@@ -42,7 +43,8 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             if (!isValid)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Format("Action '{0}' is invalid", action));
 
-            await _issueStore.UpdateAsync(id, issue);
+            await _issueStore.UpdateAsync(issue);
+            
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
