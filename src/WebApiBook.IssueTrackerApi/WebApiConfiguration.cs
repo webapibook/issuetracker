@@ -21,16 +21,23 @@ namespace WebApiBook.IssueTrackerApi
         public static void Configure(HttpConfiguration config, IIssueStore issueStore = null)
         {
             config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}", new { id = RouteParameter.Optional });
-            
+            ConfigureFormatters(config);
+            ConfigureAutofac(config, issueStore);
+        }
+       
+        private static void ConfigureFormatters(HttpConfiguration config)
+        {
+            config.Formatters.Add(new CollectionJsonFormatter());
             JsonSerializerSettings settings = config.Formatters.JsonFormatter.SerializerSettings;
             settings.NullValueHandling = NullValueHandling.Ignore;
-            settings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            settings.Formatting = Formatting.Indented;
             settings.ContractResolver =
                         new CamelCasePropertyNamesContractResolver();
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.issue+json"));
-            
-            config.Formatters.Add(new CollectionJsonFormatter());
-            
+        }
+
+        private static void ConfigureAutofac(HttpConfiguration config, IIssueStore issueStore)
+        {
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(typeof(IssueController).Assembly);
 
