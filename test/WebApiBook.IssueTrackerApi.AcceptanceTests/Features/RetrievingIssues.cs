@@ -22,62 +22,6 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         private Uri _uriIssue2 = new Uri("http://localhost/issue/2");
  
         [Scenario]
-        public void RetrievingAllIssues(IssuesState issuesState)
-        {
-            "Given existing issues".
-                f(() => MockIssueStore.Setup(i => i.FindAsync()).Returns(Task.FromResult(FakeIssues)));
-            "When all issues are retrieved".
-                f(() =>
-                    {
-                        Request.RequestUri = _uriIssues;
-                        Response = Client.SendAsync(Request).Result;
-                        issuesState = Response.Content.ReadAsAsync<IssuesState>().Result;
-                    });
-            "Then a '200 OK' status is returned".
-                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
-            "Then they are returned".
-                f(() =>
-                    {
-                        issuesState.Issues.FirstOrDefault(i => i.Id == "1").ShouldNotBeNull();
-                        issuesState.Issues.FirstOrDefault(i => i.Id == "2").ShouldNotBeNull();
-                    });
-            "Then the collection should have a 'self' link".
-                f(() =>
-                    {
-                        var link = issuesState.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
-                        link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue");
-                    });
-        }
-
-        [Scenario]
-        public void RetrievingAllIssuesWithCollectionJson(IReadDocument readDocument)
-        {
-            "Given existing issues".
-                f(() => MockIssueStore.Setup(i => i.FindAsync()).Returns(Task.FromResult(FakeIssues)));
-            "When all issues are retrieved as Collection+Json".
-                f(() =>
-                    {
-                        Request.RequestUri = _uriIssues;
-                        Request.Headers.Accept.Clear();
-                        Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.collection+json"));
-                        Response = Client.SendAsync(Request).Result;
-                        readDocument = Response.Content.ReadAsAsync<ReadDocument>(new[] {new CollectionJsonFormatter()}).Result;
-                    });
-            "Then a '200 OK' status is returned".
-               f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
-            "Then a Collection+Json document is returned".
-                f(() =>
-                    {
-                        readDocument.ShouldNotBeNull();
-                        readDocument.Collection.Href.AbsoluteUri.ShouldEqual("http://localhost/issue");
-                    });
-            "Then the Search Query is returned".
-                f(() => readDocument.Collection.Queries.SingleOrDefault(
-                            q => q.Rel == IssueLinkFactory.Rels.SearchQuery).ShouldNotBeNull());
-        }
-
-        [Scenario]
         public void RetrievingAnIssue(IssueState issue, Issue fakeIssue)
         {
             "Given an existing issue".
@@ -185,5 +129,95 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
 
+        [Scenario]
+        public void RetrievingAllIssues(IssuesState issuesState)
+        {
+            "Given existing issues".
+                f(() => MockIssueStore.Setup(i => i.FindAsync()).Returns(Task.FromResult(FakeIssues)));
+            "When all issues are retrieved".
+                f(() =>
+                    {
+                        Request.RequestUri = _uriIssues;
+                        Response = Client.SendAsync(Request).Result;
+                        issuesState = Response.Content.ReadAsAsync<IssuesState>().Result;
+                    });
+            "Then a '200 OK' status is returned".
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
+            "Then they are returned".
+                f(() =>
+                    {
+                        issuesState.Issues.FirstOrDefault(i => i.Id == "1").ShouldNotBeNull();
+                        issuesState.Issues.FirstOrDefault(i => i.Id == "2").ShouldNotBeNull();
+                    });
+            "Then the collection should have a 'self' link".
+                f(() =>
+                    {
+                        var link = issuesState.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
+                        link.ShouldNotBeNull();
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue");
+                    });
+        }
+
+        [Scenario]
+        public void RetrievingAllIssuesAsCollectionJson(IReadDocument readDocument)
+        {
+            "Given existing issues".
+                f(() => MockIssueStore.Setup(i => i.FindAsync()).Returns(Task.FromResult(FakeIssues)));
+            "When all issues are retrieved as Collection+Json".
+                f(() =>
+                    {
+                        Request.RequestUri = _uriIssues;
+                        Request.Headers.Accept.Clear();
+                        Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.collection+json"));
+                        Response = Client.SendAsync(Request).Result;
+                        readDocument = Response.Content.ReadAsAsync<ReadDocument>(new[] {new CollectionJsonFormatter()}).Result;
+                    });
+            "Then a '200 OK' status is returned".
+               f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
+            "Then Collection+Json is returned".
+                f(() => readDocument.ShouldNotBeNull());
+            "Then the href should be set".
+                f(() => readDocument.Collection.Href.AbsoluteUri.ShouldEqual("http://localhost/issue"));
+            "Then all issues are returned".
+                f(() =>
+                    {
+                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost/issue/1").ShouldNotBeNull();
+                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost/issue/2").ShouldNotBeNull();
+                    });
+                
+            "Then the search query is returned".
+                f(() => readDocument.Collection.Queries.SingleOrDefault(
+                            q => q.Rel == IssueLinkFactory.Rels.SearchQuery).ShouldNotBeNull());
+        }
+
+        [Scenario]
+        public void SearchingIssues(IssuesState issuesState)
+        {
+            "Given existing issues".
+                f(() => MockIssueStore.Setup(i => i.FindAsyncQuery("another")).Returns(Task.FromResult(FakeIssues.Where(i=>i.Id == "2"))));
+            "When issues are searched".
+                f(() =>
+                {
+                    Request.RequestUri = new Uri(_uriIssues, "?searchtext=another");
+                    Response = Client.SendAsync(Request).Result;
+                    issuesState = Response.Content.ReadAsAsync<IssuesState>().Result;
+                });
+            "Then a '200 OK' status is returned".
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
+            "Then the collection should have a 'self' link".
+                f(() =>
+                {
+                    var link = issuesState.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
+                    link.ShouldNotBeNull();
+                    link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue?searchtext=another");
+                });
+            "Then the matching issues are returned".
+                f(() =>
+                    {
+                        var issue = issuesState.Issues.FirstOrDefault();
+                        issue.ShouldNotBeNull();
+                        issue.Id.ShouldEqual("2");
+                });
+        }
     }
 }
