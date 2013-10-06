@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using Moq;
 using WebApiBook.IssueTrackerApi.Controllers;
@@ -22,6 +23,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         {
             MockIssueStore = new Mock<IIssueStore>();
             Request = new HttpRequestMessage();
+            Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.issue+json"));
             IssueLinks = new IssueLinkFactory(Request);
             StateFactory = new IssueStateFactory(IssueLinks);
             FakeIssues = GetFakeIssues();
