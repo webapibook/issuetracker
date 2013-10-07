@@ -3,6 +3,8 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
+using Moq;
+using Newtonsoft.Json.Linq;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
@@ -14,15 +16,15 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         private Uri _issues = new Uri("http://localhost/issue");
 
         [Scenario]
-        public void CreatingANewIssue(Issue issue)
+        public void CreatingANewIssue(dynamic newIssue)
         {
             "Given a new issue".
                 f(() =>
                     {
-                        issue = new Issue {Description = "A new issue", Title = "A new issue"};
-                        issue.Description = "A new issue";
-                        issue.Title = "A new issue";
-                        MockIssueStore.Setup(i => i.CreateAsync(issue)).Returns(() =>
+                        newIssue = new JObject();
+                        newIssue.description = "A new issue";
+                        newIssue.title = "NewIssue";
+                        MockIssueStore.Setup(i => i.CreateAsync(It.IsAny<Issue>())).Returns<Issue>( issue=>
                             {
                                 issue.Id = "1";
                                 return Task.FromResult("");
@@ -33,13 +35,13 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         Request.Method = HttpMethod.Post;
                         Request.RequestUri = _issues;
-                        Request.Content = new ObjectContent<Issue>(issue, new JsonMediaTypeFormatter());
+                        Request.Content = new ObjectContent<dynamic>(newIssue, new JsonMediaTypeFormatter());
                         Response = Client.SendAsync(Request).Result;
                     });
+            "Then the issue should be added".
+                f(() => MockIssueStore.Verify(i => i.CreateAsync(It.IsAny<Issue>())));
             "Then a '201 Created' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.Created));
-            "Then the issue should be added".
-                f(() => MockIssueStore.Verify(i => i.CreateAsync(issue)));
             "Then the response location header will be set to the resource location".
                 f(() => Response.Headers.Location.AbsoluteUri.ShouldEqual("http://localhost/issue/1"));
         }

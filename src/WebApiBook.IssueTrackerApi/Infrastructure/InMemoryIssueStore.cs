@@ -48,17 +48,6 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
             return Task.FromResult("");
         }
 
-        public Task UpdateAsync(string issueId, JObject values)
-        {
-            var issue = FindAsync(issueId).Result;
-            foreach (var token in values)
-            {
-                var prop = _issueType.GetProperty(token.Key, BindingFlags.IgnoreCase);
-                prop.SetValue(issue, token.Value.ToObject(prop.PropertyType));
-            }
-            return Task.FromResult("");
-        }
-
         public Task DeleteAsync(string issueId)
         {
             var issue = _issues.Single(i => i.Id == issueId);
