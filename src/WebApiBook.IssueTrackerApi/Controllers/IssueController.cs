@@ -50,21 +50,29 @@ namespace WebApiBook.IssueTrackerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, issuesState);
         }
 
-        public async Task<HttpResponseMessage> Post(Issue issue)
+        public async Task<HttpResponseMessage> Post(dynamic newIssue)
         {
+            var issue = new Issue {Title = newIssue.title, Description = newIssue.description};
             await _store.CreateAsync(issue);
             var response = Request.CreateResponse(HttpStatusCode.Created);
             response.Headers.Location = _linkFactory.Self(issue.Id).Href;
             return response;
         }
 
-        public async Task<HttpResponseMessage> Patch(string id, JObject issueUpdate)
+        public async Task<HttpResponseMessage> Patch(string id, dynamic issueUpdate)
         {
             var issue = await _store.FindAsync(id);
             if (issue == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            await _store.UpdateAsync(id, issueUpdate);
+            foreach (JProperty prop in issueUpdate)
+            {
+                if (prop.Name == "title")
+                    issue.Title = prop.Value.ToObject<string>();
+                else if (prop.Name == "description")
+                    issue.Description = prop.Value.ToObject<string>();
+            }
+            await _store.UpdateAsync(issue);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
       
