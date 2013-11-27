@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,12 @@ namespace WebApiBook.IssueTrackerApi.SelfHost
         static void Main(string[] args)
         {
             var config = new HttpSelfHostConfiguration("http://localhost:8080");
+            config.EnableSystemDiagnosticsTracing();
             WebApiConfiguration.Configure(config);
+            Trace.Listeners.Add(new ConsoleTraceListener());
+
+            
+            
             var host = new HttpSelfHostServer(config);
             host.OpenAsync();
             Console.WriteLine("IssueApi hosted at: {0}", config.BaseAddress);

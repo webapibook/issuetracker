@@ -14,7 +14,7 @@ namespace WebApiBook.IssueTrackerApi.Models
         {
             Links = new List<Link>();
         }
-
+        
         public IEnumerable<IssueState> Issues { get; set; }
         public IList<Link> Links { get; private set; }
 
