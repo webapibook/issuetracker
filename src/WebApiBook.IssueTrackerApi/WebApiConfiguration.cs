@@ -36,9 +36,10 @@ namespace WebApiBook.IssueTrackerApi
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.issue+json"));
         }
 
-        private static void ConfigureAutofac(HttpConfiguration config, IIssueStore issueStore)
+        public static void ConfigureAutofac(HttpConfiguration config, IIssueStore issueStore)
         {
             var builder = new ContainerBuilder();
+         
             builder.RegisterApiControllers(typeof(IssueController).Assembly);
 
             if (issueStore == null)
@@ -50,6 +51,7 @@ namespace WebApiBook.IssueTrackerApi
             builder.RegisterType<IssueLinkFactory>().InstancePerLifetimeScope();
             builder.RegisterHttpRequestMessage(config);
             var container = builder.Build();
+
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
