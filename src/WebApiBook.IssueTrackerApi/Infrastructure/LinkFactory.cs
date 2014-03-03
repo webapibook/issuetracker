@@ -8,28 +8,36 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
     public abstract class LinkFactory
     {
         private readonly UrlHelper _urlHelper;
-        private readonly string _controllerName;
-        
-        public class Rels
-        {
-            public const string Self = "self";
-        }
- 
-        public LinkFactory(HttpRequestMessage request, string controllerName)
+        private string _controllerName; 
+
+        protected LinkFactory(HttpRequestMessage request, Type controllerType)
         {
             _urlHelper = new UrlHelper(request);
-            _controllerName = controllerName;
+            var name = controllerType.Name;
+            _controllerName = name.Substring(0, name.Length - "controller".Length).ToLower();
+
         }
- 
+
         protected Uri GetUri(object routeValues, string route = "DefaultApi")
         {
             return new Uri(_urlHelper.Link(route, routeValues));
         }
- 
+
         public Link Self(string id, string route = "DefaultApi")
         {
-            return new Link{Rel=Rels.Self, Href=GetUri(new {controller=_controllerName, id=id}, route)};
+            return new Link { Rel = Rels.Self, Href = GetUri(new { controller = _controllerName, id = id }, route) };
         } 
- 
+
+        public class Rels
+        {
+            public const string Self = "self";
+        }
+    }
+
+    public abstract class LinkFactory<TController> : LinkFactory
+    {
+        public LinkFactory(HttpRequestMessage request):base(request, typeof(TController))
+        {
+        }
     }
 }
