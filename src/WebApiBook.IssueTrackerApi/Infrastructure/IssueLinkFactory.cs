@@ -1,9 +1,10 @@
 ﻿using System.Net.Http;
+using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Models;
 
 namespace WebApiBook.IssueTrackerApi.Infrastructure
 {
-    public class IssueLinkFactory : LinkFactory
+    public class IssueLinkFactory : LinkFactory<IssueController>
     {
         private const string Prefix = "http://webapibook.net/rels/";
         
@@ -21,7 +22,7 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
         }
         
         public IssueLinkFactory(HttpRequestMessage request)
-            : base(request, "issue")
+            : base(request)
         {
         }
    
