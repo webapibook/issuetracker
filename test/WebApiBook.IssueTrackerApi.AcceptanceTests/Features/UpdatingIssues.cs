@@ -48,7 +48,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         }
 
         [Scenario]
-        public void UpdatingAnIssueThatDoesNotExist(HttpResponseMessage response)
+        public void UpdatingAnIssueThatDoesNotExist()
         {
             "Given an issue does not exist".
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
@@ -58,10 +58,10 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                         Request.Method = new HttpMethod("PATCH");
                         Request.RequestUri = _uriIssue1;
                         Request.Content = new ObjectContent<dynamic>(new JObject(), new JsonMediaTypeFormatter());
-                        response = Client.SendAsync(Request).Result;
+                        Response = Client.SendAsync(Request).Result;
                     });
-            "Then a 404 Not Found status is reutnred".
-                f(() => response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
+            "Then a 404 Not Found status is returned".
+                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
 
     }
