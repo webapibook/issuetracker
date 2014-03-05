@@ -8,22 +8,34 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
     public abstract class LinkFactory
     {
         private readonly UrlHelper _urlHelper;
-        private string _controllerName; 
+        private readonly string _controllerName;
+        private const string DefaultApi = "DefaultApi";
 
         protected LinkFactory(HttpRequestMessage request, Type controllerType)
         {
             _urlHelper = new UrlHelper(request);
-            var name = controllerType.Name;
-            _controllerName = name.Substring(0, name.Length - "controller".Length).ToLower();
-
+            _controllerName = GetControllerName(controllerType);
         }
 
-        protected Uri GetUri(object routeValues, string route = "DefaultApi")
+        private string GetControllerName(Type controllerType)
+        {
+            var name = controllerType.Name;
+            return name.Substring(0, name.Length - "controller".Length).ToLower();
+        }
+
+        protected Link GetLink<TController>(string rel, object id, string action, string route = DefaultApi)
+        {
+            var uri = GetUri(new {controller=GetControllerName(typeof(TController)), id, action}, route);
+            return new Link {Action = action, Href = uri, Rel = rel};
+        }
+
+        protected Uri GetUri(object routeValues, string route = DefaultApi)
         {
             return new Uri(_urlHelper.Link(route, routeValues));
         }
 
-        public Link Self(string id, string route = "DefaultApi")
+  
+        public Link Self(string id, string route = DefaultApi)
         {
             return new Link { Rel = Rels.Self, Href = GetUri(new { controller = _controllerName, id = id }, route) };
         } 
@@ -36,8 +48,6 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
 
     public abstract class LinkFactory<TController> : LinkFactory
     {
-        public LinkFactory(HttpRequestMessage request):base(request, typeof(TController))
-        {
-        }
+        public LinkFactory(HttpRequestMessage request) : base(request, typeof(TController)) { }
     }
 }
