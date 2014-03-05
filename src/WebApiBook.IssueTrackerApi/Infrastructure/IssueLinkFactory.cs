@@ -6,7 +6,7 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
 {
     public class IssueLinkFactory : LinkFactory<IssueController>
     {
-        private const string Prefix = "http://webapibook.net/rels#";
+        private const string Prefix = "http://webapibook.net/profile#";
         
         public new class Rels : LinkFactory.Rels {
             public const string IssueProcessor = Prefix + "issue-processor";
@@ -26,15 +26,17 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
    
         public Link Transition(string id)
         {
-            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Transition, Href = GetUri(new { controller = "issueprocessor", id = id, action = Actions.Transition }) };
+            return GetLink<IssueProcessorController>(Rels.IssueProcessor, id, Actions.Transition);
         }
         
-        public Link Open(string id) {
-            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Open, Href = GetUri(new { controller = "issueprocessor", id = id, action = Actions.Open }) };
+        public Link Open(string id)
+        {
+            return GetLink<IssueProcessorController>(Rels.IssueProcessor, id, Actions.Open);
         }
         
-        public Link Close(string id) {
-            return new Link { Rel = Rels.IssueProcessor, Action = Actions.Close, Href = GetUri(new { controller = "issueprocessor", id = id, action = Actions.Close }) };
+        public Link Close(string id)
+        {
+            return GetLink<IssueProcessorController>(Rels.IssueProcessor, id, Actions.Close);
         }
     }
 }
