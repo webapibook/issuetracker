@@ -24,6 +24,7 @@ namespace WebApiBook.IssueTrackerApi.Models
             {
                 var collection = new Collection();
                 collection.Href = Links.SingleOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self).Href;
+                collection.Links.Add(new CJLink {Rel="profile", Href = new Uri("http://webapibook.net/profile")});
                 foreach (var issue in Issues)
                 {
                     var item = new Item();
