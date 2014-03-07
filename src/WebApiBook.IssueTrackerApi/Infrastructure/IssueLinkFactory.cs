@@ -5,10 +5,10 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
 {
     public class IssueLinkFactory : LinkFactory
     {
-        private const string Prefix = "http://webapibook.net/rels#";
+        private const string Prefix = "http://webapibook.net/rels/";
         
         public new class Rels : LinkFactory.Rels {
-            public const string IssueProcessor = Prefix + "issue-processor";
+            public const string IssueProcessor = Prefix + "issueprocessor";
             public const string SearchQuery = Prefix + "search";
             public const string Issue = Prefix + "issue";
             public const string Issues = Prefix + "issues";

@@ -71,25 +71,25 @@ namespace WebApiBook.IssueTrackerApi.Controllers
         }
     }
 
-    public class HomeContent : HttpContent
-    {
-        private readonly MemoryStream _stream = new MemoryStream();
+    //public class HomeContent : HttpContent
+    //{
+    //    private readonly MemoryStream _stream = new MemoryStream();
 
-        public HomeContent(HomeDocument document)
-        {
-            document.Save(_stream);
-            _stream.Position = 0;
-        }
+    //    public HomeContent(HomeDocument document)
+    //    {
+    //        document.Save(_stream);
+    //        _stream.Position = 0;
+    //    }
 
-        protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
-        {
-            return _stream.CopyToAsync(stream);
-        }
+    //    protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+    //    {
+    //        return _stream.CopyToAsync(stream);
+    //    }
 
-        protected override bool TryComputeLength(out long length)
-        {
-            length = _stream.Length;
-            return true;
-        }
-    }
+    //    protected override bool TryComputeLength(out long length)
+    //    {
+    //        length = _stream.Length;
+    //        return true;
+    //    }
+    //}
 }
