@@ -26,7 +26,7 @@ namespace WebApiBook.IssueTrackerApi.SelfHost
             
             
             var host = new HttpSelfHostServer(config);
-            host.OpenAsync();
+            host.OpenAsync().Wait();
             Console.WriteLine("IssueApi hosted at: {0}", config.BaseAddress);
             Console.ReadLine();
         }

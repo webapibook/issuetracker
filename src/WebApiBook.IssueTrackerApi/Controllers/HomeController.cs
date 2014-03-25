@@ -55,6 +55,24 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 
             home.AddResource(issuesLink);
 
+            var searchLink = new Link()
+            {
+                Relation = IssueLinkFactory.Rels.SearchQuery,
+                Target = new Uri("/issue{?searchtext}", UriKind.Relative)
+            };
+            
+            searchLink.AddHint<AllowHint>(h => h.AddMethod(HttpMethod.Get));
+            searchLink.AddHint<FormatsHint>(h =>
+            {
+                h.AddMediaType("application/json");
+                h.AddMediaType("application/vnd.collection+json");
+            });
+
+            home.AddResource(searchLink);
+
+
+
+
             var issueProcessorLink = new Link()
                 {
                     Relation = IssueLinkFactory.Rels.IssueProcessor, Target = new Uri("/issueprocessor/{id}{?action}", UriKind.Relative)
