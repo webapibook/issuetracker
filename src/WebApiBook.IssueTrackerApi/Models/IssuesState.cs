@@ -45,6 +45,10 @@ namespace WebApiBook.IssueTrackerApi.Models
                 var query = new Query { Rel=IssueLinkFactory.Rels.SearchQuery, Href = new Uri("/issue", UriKind.Relative), Prompt="Issue search" };
                 query.Data.Add(new Data() { Name = "SearchText", Prompt = "Text to match against Title and Description" });
                 collection.Queries.Add(query);
+                var templateData = collection.Template.Data;
+                templateData.Add(new Data() {Name="Description", Prompt="Description for the issue"});
+                templateData.Add(new Data() {Name="Status", Prompt="Status of the issue (Open or Closed)"});
+                templateData.Add(new Data() {Name="Title", Prompt="Title for the issue"});
                 return collection;
             }
         }

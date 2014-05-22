@@ -59,7 +59,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
             "Then it should have a transition link".
                 f(() =>
                     {
-                        var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.IssueProcessor && l.Action == IssueLinkFactory.Actions.Transition);
+                        var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Transition && l.Action == IssueLinkFactory.Actions.Transition);
                         link.ShouldNotBeNull();
                         link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/1?action=transition");
                     });
@@ -83,7 +83,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
             "Then it should have a 'close' action link".
                 f(() =>
                     {
-                        var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.IssueProcessor && l.Action == IssueLinkFactory.Actions.Close);
+                        var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Close && l.Action == IssueLinkFactory.Actions.Close);
                         link.ShouldNotBeNull();
                         link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/1?action=close");
                     });
@@ -107,7 +107,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
             "Then it should have a 'open' action link".
                 f(() =>
                     {
-                        var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.IssueProcessor && l.Action == IssueLinkFactory.Actions.Open);
+                        var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Open && l.Action == IssueLinkFactory.Actions.Open);
                         link.ShouldNotBeNull();
                         link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/2?action=open");
 

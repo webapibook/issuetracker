@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Newtonsoft.Json;
@@ -23,6 +24,7 @@ namespace WebApiBook.IssueTrackerApi
             config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}", new { id = RouteParameter.Optional });
             ConfigureFormatters(config);
             ConfigureAutofac(config, issueStore);
+            EnableCors(config);
         }
        
         private static void ConfigureFormatters(HttpConfiguration config)
@@ -53,6 +55,12 @@ namespace WebApiBook.IssueTrackerApi
             var container = builder.Build();
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+        }
+
+        public static void EnableCors(HttpConfiguration config)
+        {
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
         }
     }
 }
