@@ -42,9 +42,10 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
 
         public Task UpdateAsync(Issue issue)
         {
-            issue.Title = issue.Title;
-            issue.Description = issue.Description;
-            issue.Status = issue.Status;
+            var oldIssue = FindAsync(issue.Id).Result;
+            oldIssue.Title = issue.Title;
+            oldIssue.Description = issue.Description;
+            oldIssue.Status = issue.Status;
             return Task.FromResult("");
         }
 
