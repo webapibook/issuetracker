@@ -45,7 +45,7 @@ namespace WebApiBook.IssueTrackerApi
             builder.RegisterApiControllers(typeof(IssueController).Assembly);
 
             if (issueStore == null)
-                builder.RegisterType<InMemoryIssueStore>().As<IIssueStore>().InstancePerLifetimeScope();
+                builder.RegisterType<InMemoryIssueStore>().As<IIssueStore>().SingleInstance();
             else
                 builder.RegisterInstance(issueStore);
 
