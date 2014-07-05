@@ -5,13 +5,6 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi", "WebApiBook.IssueTrackerApi\WebApiBook.IssueTrackerApi.csproj", "{DDBDD2D6-2BFA-4568-8DBF-8AD846111D78}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23BA1DCB-8693-4505-8B38-FD3AF35CCF31}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi.AcceptanceTests", "..\test\WebApiBook.IssueTrackerApi.AcceptanceTests\WebApiBook.IssueTrackerApi.AcceptanceTests.csproj", "{A792CD7B-40EE-4619-87C0-1B20FB3B4F6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiBook.IssueTrackerApi.SelfHost", "WebApiBook.IssueTrackerApi.SelfHost\WebApiBook.IssueTrackerApi.SelfHost.csproj", "{5AC1AF4C-FB00-44F6-B8CE-B472A96C5B4B}"
