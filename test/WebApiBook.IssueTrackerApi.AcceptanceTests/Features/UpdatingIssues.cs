@@ -14,7 +14,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
     public class UpdatingIssues : IssuesFeature
     {
-        private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
+        private Uri _uriIssue1 = new Uri("http://localhost:8080/issue/1");
 
         [Scenario]
         public void UpdatingAnIssue(Issue fakeIssue, string title)

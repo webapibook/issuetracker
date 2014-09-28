@@ -13,7 +13,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
     public class CreatingIssues : IssuesFeature
     {
-        private Uri _issues = new Uri("http://localhost/issue");
+        private Uri _issues = new Uri("http://localhost:8080/issue");
 
         [Scenario]
         public void CreatingANewIssue(dynamic newIssue)
@@ -43,7 +43,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
             "Then a '201 Created' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.Created));
             "Then the response location header will be set to the resource location".
-                f(() => Response.Headers.Location.AbsoluteUri.ShouldEqual("http://localhost/issue/1"));
+                f(() => Response.Headers.Location.AbsoluteUri.ShouldEqual("http://localhost:8080/issue/1"));
         }
     }
 }
