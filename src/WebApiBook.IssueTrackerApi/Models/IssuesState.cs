@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CollectionJson;
+using System.Web;
 using WebApiBook.IssueTrackerApi.Infrastructure;
-using CJLink = CollectionJson.Link;
+using WebApiContrib.CollectionJson;
+using CJLink = WebApiContrib.CollectionJson.Link;
 
 namespace WebApiBook.IssueTrackerApi.Models
 {
@@ -21,10 +22,8 @@ namespace WebApiBook.IssueTrackerApi.Models
         {
             get
             {
-                var collection = new Collection
-                {
-                    Href = Links.SingleOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self).Href
-                };
+                var collection = new Collection();
+                collection.Href = Links.SingleOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self).Href;
                 collection.Links.Add(new CJLink {Rel="profile", Href = new Uri("http://webapibook.net/profile")});
                 foreach (var issue in Issues)
                 {

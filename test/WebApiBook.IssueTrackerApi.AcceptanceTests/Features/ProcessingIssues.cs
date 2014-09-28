@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Moq;
+using Newtonsoft.Json.Linq;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
@@ -11,7 +13,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
     public class ProcessingIssues : IssuesFeature
     {
-        private string _uriProcessor = "http://localhost:8080/issueprocessor/1?";
+        private string _uriProcessor = "http://localhost/issueprocessor/1?";
 
         [Scenario]
         public void ClosingAnOpenIssue(Issue issue)

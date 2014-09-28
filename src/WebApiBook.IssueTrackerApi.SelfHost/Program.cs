@@ -1,5 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Http.SelfHost;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using WebApiBook.IssueTrackerApi.Controllers;
+using WebApiBook.IssueTrackerApi.Infrastructure;
+using WebApiBook.IssueTrackerApi.Models;
 
 namespace WebApiBook.IssueTrackerApi.SelfHost
 {
