@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Moq;
 using Should;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using WebApiContrib.CollectionJson;
-using WebApiContrib.Formatting.CollectionJson.Client;
+using CollectionJson;
 using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
     public class RetrievingIssues : IssuesFeature
     {
-        private Uri _uriIssues = new Uri("http://localhost/issue");
-        private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
-        private Uri _uriIssue2 = new Uri("http://localhost/issue/2");
+        private Uri _uriIssues = new Uri("http://localhost:8080/issue");
+        private Uri _uriIssue1 = new Uri("http://localhost:8080/issue/1");
+        private Uri _uriIssue2 = new Uri("http://localhost:8080/issue/2");
  
         [Scenario]
         public void RetrievingAnIssue(IssueState issue, Issue fakeIssue)
@@ -54,14 +51,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue/1");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issue/1");
                     });
             "Then it should have a transition link".
                 f(() =>
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Transition && l.Action == IssueLinkFactory.Actions.Transition);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/1?action=transition");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issueprocessor/1?action=transition");
                     });
         }
 
@@ -85,7 +82,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Close && l.Action == IssueLinkFactory.Actions.Close);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/1?action=close");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issueprocessor/1?action=close");
                     });
         }
 
@@ -109,7 +106,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Open && l.Action == IssueLinkFactory.Actions.Open);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/2?action=open");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issueprocessor/2?action=open");
 
                     });
         }
@@ -154,7 +151,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         var link = issuesState.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issue");
                     });
         }
 
@@ -170,19 +167,19 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                         Request.Headers.Accept.Clear();
                         Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.collection+json"));
                         Response = Client.SendAsync(Request).Result;
-                        readDocument = Response.Content.ReadAsAsync<ReadDocument>(new[] {new CollectionJsonFormatter()}).Result;
+                        readDocument = Response.Content.ReadAsAsync<IReadDocument>(new[] {new CollectionJsonFormatter.CollectionJsonMediaTypeFormatter()}).Result;
                     });
             "Then a '200 OK' status is returned".
                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
             "Then Collection+Json is returned".
                 f(() => readDocument.ShouldNotBeNull());
             "Then the href should be set".
-                f(() => readDocument.Collection.Href.AbsoluteUri.ShouldEqual("http://localhost/issue"));
+                f(() => readDocument.Collection.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issue"));
             "Then all issues are returned".
                 f(() =>
                     {
-                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost/issue/1").ShouldNotBeNull();
-                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost/issue/2").ShouldNotBeNull();
+                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost:8080/issue/1").ShouldNotBeNull();
+                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost:8080/issue/2").ShouldNotBeNull();
                     });
                 
             "Then the search query is returned".
@@ -209,7 +206,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 {
                     var link = issuesState.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
                     link.ShouldNotBeNull();
-                    link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue?searchtext=another");
+                    link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issue?searchtext=another");
                 });
             "Then the matching issues are returned".
                 f(() =>
