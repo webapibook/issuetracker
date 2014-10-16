@@ -174,7 +174,7 @@ CJ queries supply parameters that are passed in the URI as part of the query str
 curl -H "accept:application/vnd.collection+json" http://webapibook-issuetracker.azurewebsites.net/issue?searchtext=another
 ```
 
-Sure enough this returns a CJ document with the issue named "This is another issue".
+Sure enough this returns a CJ document with the issue with a description of "This is another issue".
 
 ```javascript
 {
