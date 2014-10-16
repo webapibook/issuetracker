@@ -168,7 +168,7 @@ You can also search for a specific issue. If you look at the template in the fir
 ]
 ```
 
-CJ queries supply parameters that are passed in the URI as part of the query string. In this case you can see the `href` is at the `issue` reource and that there is a 'SearchText' query param. Let's see how we can use that to search for issue 2. Queries return CJ documents.
+CJ queries supply parameters that are passed in the URI as part of the query string. In this case you can see the `href` is at the `issue` resource and that there is a 'SearchText' query param. Let's see how we can use that to search for issue 2. Queries return CJ documents.
 
 ```text
 curl -H "accept:application/vnd.collection+json" http://webapibook-issuetracker.azurewebsites.net/issue?searchtext=another
