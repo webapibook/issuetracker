@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.SelfHost;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using WebApiBook.IssueTrackerApi.Controllers;
-using WebApiBook.IssueTrackerApi.Infrastructure;
-using WebApiBook.IssueTrackerApi.Models;
+using Microsoft.Owin.Hosting;
+
 
 namespace WebApiBook.IssueTrackerApi.SelfHost
 {
@@ -17,12 +8,14 @@ namespace WebApiBook.IssueTrackerApi.SelfHost
     {
         static void Main(string[] args)
         {
-            var config = new HttpSelfHostConfiguration("http://localhost:8080");
-            WebApiConfiguration.Configure(config);
-            var host = new HttpSelfHostServer(config);
-            host.OpenAsync().Wait();
-            Console.WriteLine("IssueApi hosted at: {0}", config.BaseAddress);
-            Console.ReadLine();
+            string baseAddress = "http://localhost:8080/";
+
+            // Start OWIN host 
+            using (WebApp.Start<Startup>(url: baseAddress))
+            {
+                Console.WriteLine("IssueApi hosted at: {0}", baseAddress);
+                Console.ReadLine();
+            }
         }
     }
 }
