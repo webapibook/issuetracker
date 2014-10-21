@@ -3,7 +3,7 @@ issuetracker
 This repo contains the sample API used in the book.
 
 # Implementation
-This is a hypermedia API for managing issues. Using it you can retrieve, create, modify and transition the state of issues. is implemented with ASP.NET Web API. You can find out all the details on the design and implementation in the book [here] (http://chimera.labs.oreilly.com/books/1234000001708/ch07.html)
+This is a hypermedia API for managing issues. Using it you can retrieve, create, modify and transition the state of issues. It is implemented with ASP.NET Web API. You can find out all the details on the design and implementation in the book [here] (http://chimera.labs.oreilly.com/books/1234000001708/ch07.html)
 
 # Try it out
 This API is hosted live in the cloud via [Azure] (http://azure.net). Here is a simple walkthrough showing how you can navigate the API. You can use this same walkthrough against the local API by subsituting the root URL for your local machine and using the links returned to you rather than the azure links below. (Hence the value of hypermedia :-) )
@@ -11,7 +11,7 @@ This API is hosted live in the cloud via [Azure] (http://azure.net). Here is a s
 One other thing to note. As this is a single instance hosted in the cloud it is possible that this walkthrough may not yield exactly the same results if multiple folks are hitting the API at the same time. However, the state is all in memory, so after a few mins of non-usage, the site will get torn down and the data reset to what is below.
 
 ## The entry point
-First hit the root entry point usign the following command:
+First hit the root entry point using the following command:
 
 ```text
 curl -H "accept:application/vnd.collection+json" http://webapibook-issuetracker.azurewebsites.net/issue
