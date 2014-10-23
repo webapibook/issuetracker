@@ -90,6 +90,15 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Tavis.Home">
+      <HintPath>..\packages\Tavis.Home.0.5.9\lib\portable-win+net40+sl40+wp71\Tavis.Home.dll</HintPath>
+    </Reference>
+    <Reference Include="Tavis.Link">
+      <HintPath>..\packages\Tavis.Link.0.5.0\lib\portable-win+net40+sl40+wp71\Tavis.Link.dll</HintPath>
+    </Reference>
+    <Reference Include="Tavis.UriTemplates">
+      <HintPath>..\packages\Tavis.UriTemplates.0.4\lib\Net35\Tavis.UriTemplates.dll</HintPath>
+    </Reference>
     <Reference Include="WebApiContrib.CollectionJson">
       <HintPath>..\packages\WebApiContrib.CollectionJson.0.6.2\lib\portable-net40+sl5+win8+wp8+monotouch+monoandroid\WebApiContrib.CollectionJson.dll</HintPath>
     </Reference>
@@ -98,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssueController.cs" />
     <Compile Include="Controllers\IssueProcessorController.cs" />
     <Compile Include="Infrastructure\IIssueStore.cs" />
@@ -116,7 +126,6 @@
     <Compile Include="WebApiConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>

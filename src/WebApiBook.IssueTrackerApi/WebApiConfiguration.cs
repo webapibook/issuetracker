@@ -21,6 +21,7 @@ namespace WebApiBook.IssueTrackerApi
     {
         public static void Configure(HttpConfiguration config, IIssueStore issueStore = null)
         {
+            config.Routes.MapHttpRoute("Root", "", new { controller = "Home"});
             config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}", new { id = RouteParameter.Optional });
             ConfigureFormatters(config);
             ConfigureAutofac(config, issueStore);
