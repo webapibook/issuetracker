@@ -13,7 +13,7 @@ using Newtonsoft.Json.Serialization;
 using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using WebApiContrib.Formatting.CollectionJson.Client;
+
 
 namespace WebApiBook.IssueTrackerApi
 {
@@ -29,7 +29,7 @@ namespace WebApiBook.IssueTrackerApi
        
         private static void ConfigureFormatters(HttpConfiguration config)
         {
-            config.Formatters.Add(new CollectionJsonFormatter());
+            config.Formatters.Add(new CollectionJsonFormatter.CollectionJsonMediaTypeFormatter());
             JsonSerializerSettings settings = config.Formatters.JsonFormatter.SerializerSettings;
             settings.NullValueHandling = NullValueHandling.Ignore;
             settings.Formatting = Formatting.Indented;

@@ -1,26 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using WebApiBook.IssueTrackerApi.Models;
 
 namespace WebApiBook.IssueTrackerApi.Infrastructure
 {
     public class InMemoryIssueStore : IIssueStore
     {
-        private IList<Issue> _issues;
+        private readonly IList<Issue> _issues;
         private int _id = 0;
         private static Type _issueType = typeof (Issue);
 
         public InMemoryIssueStore()
         {
-            _issues = new List<Issue>();
-            _issues.Add(new Issue {Description="This is an issue", Id="1", Status=IssueStatus.Open, Title="An issue"});
-            _issues.Add(new Issue {Description = "This is a another issue", Id = "2", Status = IssueStatus.Closed, Title = "Another Issue" });
+            _issues = new List<Issue>
+            {
+                new Issue
+                {
+                    Description = "This is an issue",
+                    Id = "1",
+                    Status = IssueStatus.Open,
+                    Title = "An issue",
+                    LastModified = new DateTimeOffset(new DateTime(2013, 9, 4))
+                },
+                new Issue
+                {
+                    Description = "This is a another issue",
+                    Id = "2",
+                    Status = IssueStatus.Closed,
+                    Title = "Another Issue",
+                    LastModified = new DateTimeOffset(new DateTime(2014, 8, 22))
+                }
+            };
             _id = _issues.Count + 1;
         }
 
@@ -46,6 +58,7 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
             oldIssue.Title = issue.Title;
             oldIssue.Description = issue.Description;
             oldIssue.Status = issue.Status;
+            oldIssue.LastModified = issue.LastModified;
             return Task.FromResult("");
         }
 

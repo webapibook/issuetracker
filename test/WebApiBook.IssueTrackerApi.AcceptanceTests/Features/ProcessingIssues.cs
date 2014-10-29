@@ -3,8 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Moq;
-using Newtonsoft.Json.Linq;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using WebApiBook.IssueTrackerApi.Infrastructure;
-using WebApiContrib.CollectionJson;
-using CJLink = WebApiContrib.CollectionJson.Link;
+using CollectionJson;
+using CJLink = CollectionJson.Link;
 
 namespace WebApiBook.IssueTrackerApi.Models
 {
@@ -22,8 +21,10 @@ namespace WebApiBook.IssueTrackerApi.Models
         {
             get
             {
-                var collection = new Collection();
-                collection.Href = Links.SingleOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self).Href;
+                var collection = new Collection
+                {
+                    Href = Links.SingleOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self).Href
+                };
                 collection.Links.Add(new CJLink {Rel="profile", Href = new Uri("http://webapibook.net/profile")});
                 foreach (var issue in Issues)
                 {
@@ -49,6 +50,7 @@ namespace WebApiBook.IssueTrackerApi.Models
                 templateData.Add(new Data() {Name="Description", Prompt="Description for the issue"});
                 templateData.Add(new Data() {Name="Status", Prompt="Status of the issue (Open or Closed)"});
                 templateData.Add(new Data() {Name="Title", Prompt="Title for the issue"});
+                templateData.Add(new Data() { Name = "LastModified", Prompt = "Date of last modification" });
                 return collection;
             }
         }

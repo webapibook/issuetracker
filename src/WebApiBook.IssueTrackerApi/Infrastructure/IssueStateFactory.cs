@@ -19,7 +19,8 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
                     Id = issue.Id,
                     Title = issue.Title,
                     Description = issue.Description,
-                    Status = Enum.GetName(typeof(IssueStatus), issue.Status)
+                    Status = Enum.GetName(typeof(IssueStatus), issue.Status),
+                    LastModified = issue.LastModified
                 };
  
             //add hypermedia

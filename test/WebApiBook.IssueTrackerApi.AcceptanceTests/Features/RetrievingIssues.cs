@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Moq;
 using Should;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using WebApiContrib.CollectionJson;
-using WebApiContrib.Formatting.CollectionJson.Client;
+using CollectionJson;
 using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
@@ -170,7 +167,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                         Request.Headers.Accept.Clear();
                         Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.collection+json"));
                         Response = Client.SendAsync(Request).Result;
-                        readDocument = Response.Content.ReadAsAsync<ReadDocument>(new[] {new CollectionJsonFormatter()}).Result;
+                        readDocument = Response.Content.ReadAsAsync<IReadDocument>(new[] {new CollectionJsonFormatter.CollectionJsonMediaTypeFormatter()}).Result;
                     });
             "Then a '200 OK' status is returned".
                f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
