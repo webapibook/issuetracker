@@ -86,6 +86,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app_start\CollectionJsonConfig.cs" />
+    <Compile Include="Features\ConflictDetection.cs" />
+    <Compile Include="Features\OutputCaching.cs" />
     <Compile Include="IssuesFeature.cs" />
     <Compile Include="Features\CreatingIssues.cs" />
     <Compile Include="Features\DeletingIssues.cs" />
@@ -103,6 +105,9 @@
       <Project>{ddbdd2d6-2bfa-4568-8dbf-8ad846111d78}</Project>
       <Name>WebApiBook.IssueTrackerApi</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

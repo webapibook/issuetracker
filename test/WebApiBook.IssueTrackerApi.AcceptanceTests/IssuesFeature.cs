@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
@@ -18,7 +19,6 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         public IEnumerable<Issue> FakeIssues;
         public HttpRequestMessage Request { get; private set; }
         public HttpClient Client;
-
         public IssuesFeature()
         {
             MockIssueStore = new Mock<IIssueStore>();
@@ -35,9 +35,26 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 
         private IEnumerable<Issue> GetFakeIssues()
         {
-            var fakeIssues = new List<Issue>();
-            fakeIssues.Add(new Issue { Id = "1", Title = "An issue", Description = "This is an issue", Status = IssueStatus.Open });
-            fakeIssues.Add(new Issue { Id = "2", Title = "Another issue", Description = "This is another issue", Status = IssueStatus.Closed });
+            var fakeIssues = new List<Issue>
+            {
+                new Issue
+                {
+                    Description = "This is an issue",
+                    Id = "1",
+                    Status = IssueStatus.Open,
+                    Title = "An issue",
+                    LastModified = new DateTimeOffset(new DateTime(2013, 9, 4))
+                },
+                new Issue
+                {
+                    Description = "This is a another issue",
+                    Id = "2",
+                    Status = IssueStatus.Closed,
+                    Title = "Another Issue",
+                    LastModified = new DateTimeOffset(new DateTime(2014, 8, 22))
+                }
+            };
+
             return fakeIssues;
         }
     }

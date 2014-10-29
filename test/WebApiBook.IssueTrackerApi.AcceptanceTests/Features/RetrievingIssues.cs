@@ -14,9 +14,9 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
     public class RetrievingIssues : IssuesFeature
     {
-        private Uri _uriIssues = new Uri("http://localhost:8080/issue");
-        private Uri _uriIssue1 = new Uri("http://localhost:8080/issue/1");
-        private Uri _uriIssue2 = new Uri("http://localhost:8080/issue/2");
+        private Uri _uriIssues = new Uri("http://localhost/issue");
+        private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
+        private Uri _uriIssue2 = new Uri("http://localhost/issue/2");
  
         [Scenario]
         public void RetrievingAnIssue(IssueState issue, Issue fakeIssue)
@@ -51,14 +51,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issue/1");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue/1");
                     });
             "Then it should have a transition link".
                 f(() =>
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Transition && l.Action == IssueLinkFactory.Actions.Transition);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issueprocessor/1?action=transition");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/1?action=transition");
                     });
         }
 
@@ -82,7 +82,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Close && l.Action == IssueLinkFactory.Actions.Close);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issueprocessor/1?action=close");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/1?action=close");
                     });
         }
 
@@ -106,7 +106,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         var link = issue.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Open && l.Action == IssueLinkFactory.Actions.Open);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issueprocessor/2?action=open");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issueprocessor/2?action=open");
 
                     });
         }
@@ -151,7 +151,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                     {
                         var link = issuesState.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
                         link.ShouldNotBeNull();
-                        link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issue");
+                        link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue");
                     });
         }
 
@@ -174,12 +174,12 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
             "Then Collection+Json is returned".
                 f(() => readDocument.ShouldNotBeNull());
             "Then the href should be set".
-                f(() => readDocument.Collection.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issue"));
+                f(() => readDocument.Collection.Href.AbsoluteUri.ShouldEqual("http://localhost/issue"));
             "Then all issues are returned".
                 f(() =>
                     {
-                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost:8080/issue/1").ShouldNotBeNull();
-                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost:8080/issue/2").ShouldNotBeNull();
+                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost/issue/1").ShouldNotBeNull();
+                        readDocument.Collection.Items.FirstOrDefault(i=>i.Href.AbsoluteUri=="http://localhost/issue/2").ShouldNotBeNull();
                     });
                 
             "Then the search query is returned".
@@ -206,7 +206,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 {
                     var link = issuesState.Links.FirstOrDefault(l => l.Rel == IssueLinkFactory.Rels.Self);
                     link.ShouldNotBeNull();
-                    link.Href.AbsoluteUri.ShouldEqual("http://localhost:8080/issue?searchtext=another");
+                    link.Href.AbsoluteUri.ShouldEqual("http://localhost/issue?searchtext=another");
                 });
             "Then the matching issues are returned".
                 f(() =>

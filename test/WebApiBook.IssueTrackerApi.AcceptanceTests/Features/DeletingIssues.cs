@@ -11,7 +11,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
     public class DeletingIssues : IssuesFeature
     {
-        private Uri _uriIssue = new Uri("http://localhost:8080/issue/1");
+        private Uri _uriIssue = new Uri("http://localhost/issue/1");
 
         [Scenario]
         public void DeletingAnIssue(Issue fakeIssue)
