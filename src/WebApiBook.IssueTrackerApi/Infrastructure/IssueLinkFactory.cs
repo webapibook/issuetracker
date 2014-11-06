@@ -14,6 +14,8 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
             public const string Close = Prefix + Actions.Close;
             public const string Transition = Prefix + Actions.Transition;
             public const string SearchQuery = Prefix + "search";
+            public const string Issues = Prefix + "issues";
+            public const string Issue = Prefix + "issue";
         }
         
         public class Actions {
