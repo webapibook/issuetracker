@@ -14,36 +14,36 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
     public class UpdatingIssues : IssuesFeature
     {
-        private Uri _uriIssue1 = new Uri("http://localhost/issue/1");
+        private readonly Uri _uriIssue1 = new Uri("http://localhost/issue/1");
 
         [Scenario]
         public void UpdatingAnIssue(Issue fakeIssue, string title)
         {
             "Given an existing issue".
                 f(() =>
-                    {
-                        fakeIssue = FakeIssues.FirstOrDefault();
-                        title = fakeIssue.Title;
-                        MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
-                        MockIssueStore.Setup(i => i.UpdateAsync(It.IsAny<Issue>())).Returns(Task.FromResult(""));
-                    });
+                {
+                    fakeIssue = FakeIssues.FirstOrDefault();
+                    title = fakeIssue.Title;
+                    MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(fakeIssue));
+                    MockIssueStore.Setup(i => i.UpdateAsync(It.IsAny<Issue>())).Returns(Task.FromResult(""));
+                });
             "When a PATCH request is made".
                 f(() =>
-                    {
-                        dynamic issue = new JObject();
-                        issue.description = "Updated description";  
-                        Request.Method = new HttpMethod("PATCH");
-                        Request.RequestUri = _uriIssue1;
-                        Request.Content = new ObjectContent<dynamic>(issue, new JsonMediaTypeFormatter());
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    dynamic issue = new JObject();
+                    issue.description = "Updated description";
+                    Request.Method = new HttpMethod("PATCH");
+                    Request.RequestUri = _uriIssue1;
+                    Request.Content = new ObjectContent<dynamic>(issue, new JsonMediaTypeFormatter());
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
-            "Then the issue should be updated".
+            "And the issue should be updated".
                 f(() => MockIssueStore.Verify(i => i.UpdateAsync(It.IsAny<Issue>())));
-            "Then the descripton should be updated".
+            "And the descripton should be updated".
                 f(() => fakeIssue.Description.ShouldEqual("Updated description"));
-            "Then the title should not change".
+            "And the title should not change".
                 f(() => fakeIssue.Title.ShouldEqual(title));
         }
 
@@ -54,15 +54,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a PATCH request is made".
                 f(() =>
-                    {
-                        Request.Method = new HttpMethod("PATCH");
-                        Request.RequestUri = _uriIssue1;
-                        Request.Content = new ObjectContent<dynamic>(new JObject(), new JsonMediaTypeFormatter());
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.Method = new HttpMethod("PATCH");
+                    Request.RequestUri = _uriIssue1;
+                    Request.Content = new ObjectContent<dynamic>(new JObject(), new JsonMediaTypeFormatter());
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a 404 Not Found status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
-
     }
 }

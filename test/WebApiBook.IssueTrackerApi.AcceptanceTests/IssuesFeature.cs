@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using Moq;
-using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
 
@@ -19,7 +18,7 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
         public HttpRequestMessage Request { get; private set; }
         public HttpClient Client;
 
-        public IssuesFeature()
+        protected IssuesFeature()
         {
             MockIssueStore = new Mock<IIssueStore>();
             Request = new HttpRequestMessage();
@@ -35,10 +34,23 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests
 
         private IEnumerable<Issue> GetFakeIssues()
         {
-            var fakeIssues = new List<Issue>();
-            fakeIssues.Add(new Issue { Id = "1", Title = "An issue", Description = "This is an issue", Status = IssueStatus.Open });
-            fakeIssues.Add(new Issue { Id = "2", Title = "Another issue", Description = "This is another issue", Status = IssueStatus.Closed });
-            return fakeIssues;
+            return new List<Issue>
+            {
+                new Issue
+                {
+                    Id = "1",
+                    Title = "An issue",
+                    Description = "This is an issue", 
+                    Status = IssueStatus.Open,
+                },
+                new Issue
+                {
+                    Id = "2",
+                    Title = "Another issue",
+                    Description = "This is another issue",
+                    Status = IssueStatus.Closed,
+                },
+            };
         }
     }
 }

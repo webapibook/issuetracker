@@ -3,8 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Moq;
-using Newtonsoft.Json.Linq;
 using Should;
 using WebApiBook.IssueTrackerApi.Models;
 using Xbehave;
@@ -13,33 +11,33 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
     public class ProcessingIssues : IssuesFeature
     {
-        private string _uriProcessor = "http://localhost/issueprocessor/1?";
+        private readonly string _uriProcessor = "http://localhost/issueprocessor/1?";
 
         [Scenario]
         public void ClosingAnOpenIssue(Issue issue)
         {
             "Given an existing open issue".
                 f(() =>
-                    {
-                        issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Open);
-                        MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
-                        MockIssueStore.Setup(i => i.UpdateAsync(issue)).Returns(Task.FromResult(""));
-                    });
+                {
+                    issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Open);
+                    MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
+                    MockIssueStore.Setup(i => i.UpdateAsync(issue)).Returns(Task.FromResult(""));
+                });
             "When a POST request is made to the issue processor AND the action is 'close'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=close");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=close");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
-            "Then the issue is closed".
+            "And the issue is closed".
                 f(() =>
-                    {
-                        issue.Status.ShouldEqual(IssueStatus.Closed);
-                        MockIssueStore.Verify(i => i.UpdateAsync(issue));
-                    });
+                {
+                    issue.Status.ShouldEqual(IssueStatus.Closed);
+                    MockIssueStore.Verify(i => i.UpdateAsync(issue));
+                });
         }
 
         [Scenario]
@@ -54,14 +52,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 });
             "When a POST request is made to the issue processor AND the action is 'transition'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=transition");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=transition");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
-            "Then the issue is closed".
+            "And the issue is closed".
                 f(() =>
                 {
                     issue.Status.ShouldEqual(IssueStatus.Closed);
@@ -81,11 +79,11 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 });
             "When a POST request is made to the issue processor AND the action is 'close'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=close");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=close");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.BadRequest));
         }
@@ -93,8 +91,8 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         [Scenario]
         public void OpeningAClosedIssue(Issue issue)
         {
-           "Given an existing closed issue".
-                f(() =>
+            "Given an existing closed issue".
+                 f(() =>
                 {
                     issue = FakeIssues.FirstOrDefault(i => i.Status == IssueStatus.Closed);
                     MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult(issue));
@@ -102,14 +100,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=open");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=open");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
-            "Then the issue is closed".
+            "And the issue is closed".
                 f(() =>
                 {
                     issue.Status.ShouldEqual(IssueStatus.Open);
@@ -129,14 +127,14 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=open");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=open");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '200 OK' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.OK));
-            "Then the issue is closed".
+            "And the issue is closed".
                 f(() =>
                 {
                     issue.Status.ShouldEqual(IssueStatus.Open);
@@ -156,11 +154,11 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 });
             "When a POST request is made to the issue processor AND the action is 'open'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=close");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=close");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '400 Bad Request' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.BadRequest));
         }
@@ -172,11 +170,11 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a POST request is made to the issue processor AND the action is 'open'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=open");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=open");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '404 Not Found' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
@@ -188,11 +186,11 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a POST request is made to the issue processor AND the action is 'close'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=close");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=close");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '404 Not Found' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
         }
@@ -204,15 +202,13 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
                 f(() => MockIssueStore.Setup(i => i.FindAsync("1")).Returns(Task.FromResult((Issue)null)));
             "When a POST request is made to the issue processor AND the action is 'transition'".
                 f(() =>
-                    {
-                        Request.RequestUri = new Uri(_uriProcessor + "action=transition");
-                        Request.Method = HttpMethod.Post;
-                        Response = Client.SendAsync(Request).Result;
-                    });
+                {
+                    Request.RequestUri = new Uri(_uriProcessor + "action=transition");
+                    Request.Method = HttpMethod.Post;
+                    Response = Client.SendAsync(Request).Result;
+                });
             "Then a '404 Not Found' status is returned".
                 f(() => Response.StatusCode.ShouldEqual(HttpStatusCode.NotFound));
-            
         }
-        
     }
 }
