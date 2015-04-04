@@ -13,7 +13,7 @@ using Newtonsoft.Json.Serialization;
 using WebApiBook.IssueTrackerApi.Controllers;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using WebApiContrib.Formatting.CollectionJson.Client;
+using CollectionJson.Client;
 
 namespace WebApiBook.IssueTrackerApi
 {

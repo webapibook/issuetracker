@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebApiBook.IssueTrackerApi.Infrastructure;
-using WebApiContrib.CollectionJson;
-using CJLink = WebApiContrib.CollectionJson.Link;
+using CollectionJson;
+using CJLink = CollectionJson.Link;
 
 namespace WebApiBook.IssueTrackerApi.Models
 {
