@@ -9,8 +9,8 @@ using Moq;
 using Should;
 using WebApiBook.IssueTrackerApi.Infrastructure;
 using WebApiBook.IssueTrackerApi.Models;
-using WebApiContrib.CollectionJson;
-using WebApiContrib.Formatting.CollectionJson.Client;
+using CollectionJson;
+using CollectionJson.Client;
 using Xbehave;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
