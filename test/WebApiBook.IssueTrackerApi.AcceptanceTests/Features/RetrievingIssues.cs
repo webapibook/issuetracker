@@ -10,6 +10,7 @@ using WebApiBook.IssueTrackerApi.Models;
 using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson.Client;
 using Xbehave;
+using Xunit;
 
 namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
 {
